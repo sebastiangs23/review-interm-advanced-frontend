@@ -1,0 +1,16 @@
+/* Fonts */
+@import url("https://fonts.googleapis.com/css2?family=Nunito+Sans:wght@400;600;700&display=swap");
+
+/* Global Variables */
+:root {
+  --font-base: "Nunito Sans", sans-serif;
+}
+
+html,
+body {
+  font: var(--font-base);
+  color: #111827;
+  background-color: #f9fafb;
+  margin: 0;
+  padding: 0;
+}
