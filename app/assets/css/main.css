@@ -4,6 +4,7 @@
 /* Global Variables */
 :root {
   --font-base: "Nunito Sans", sans-serif;
+  --main-color: linear-gradient(90deg, #59c080, #4fadbe);
 }
 
 html,

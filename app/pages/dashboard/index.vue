@@ -1,4 +1,31 @@
+<script setup lang="ts">
+import { ref, onMounted } from 'vue'
+import { useRouter } from 'vue-router'
+import { useUserStore } from '../../../stores/user'
+// import Loader from '../../components/Loader.vue'
+
+definePageMeta({
+  layout: 'modules'
+})
+
+const user = useUserStore()
+const router = useRouter()
+// const isChecking = ref(true)
+
+onMounted(() => {
+  // if (!user.isLogged) {
+  //   router.push('/')
+  // }
+  // isChecking.value = false
+})
+</script>
+
 <template>
+  <!-- <div v-if="isChecking">
+    <Loader />
+  </div> -->
+
+  <!-- <section v-else-if="user.isLogged" class="home"> -->
   <section class="home">
     <header class="home__header">
       <h2 class="home__title">Dashboard Overview</h2>
@@ -19,24 +46,13 @@
       </article>
 
       <article class="home__card">
-        <h3 class="home__card-title">Reports</h3>
-        <p class="home__card-value">24 new</p>
+        <h3 class="home__card-title">Settings</h3>
+        <p class="home__card-value">Configuration</p>
       </article>
-
-      <article class="home__card">
-        <h3 class="home__card-title">Analytics</h3>
-        <p class="home__card-value">↑ 12% growth</p>
-      </article>
-
     </div>
   </section>
 </template>
 
-<script setup lang="ts">
-definePageMeta({
-  layout: 'dashboard'
-})
-</script>
 
 <style scoped>
 .home {
@@ -54,7 +70,7 @@ definePageMeta({
 .home__title {
   font-size: 1.8rem;
   font-weight: 700;
-  background: linear-gradient(90deg, #59c080, #4fadbe);
+  background: var(--main-color);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
 }

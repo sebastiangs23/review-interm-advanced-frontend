@@ -15,6 +15,7 @@
             placeholder="Choose a username"
             class="signup__input"
             v-model="username"
+            required
           />
         </div>
 
@@ -26,6 +27,7 @@
             placeholder="Enter your email"
             class="signup__input"
             v-model="email"
+            required
           />
         </div>
 
@@ -37,10 +39,15 @@
             placeholder="Create a password"
             class="signup__input"
             v-model="password"
+            required
           />
         </div>
 
-        <button type="submit" class="signup__button">Sign Up</button>
+        <button type="submit" class="signup__button" :disabled="loading">
+          {{ loading ? 'Creating...' : 'Sign Up' }}
+        </button>
+
+        <p v-if="errorMessage" class="signup__error">{{ errorMessage }}</p>
       </form>
 
       <footer class="signup__footer">
@@ -55,13 +62,41 @@
 
 <script setup lang="ts">
 import { ref } from 'vue'
+import { useRouter } from 'vue-router'
 
 const username = ref('')
 const email = ref('')
 const password = ref('')
+const loading = ref(false)
+const errorMessage = ref('')
+const router = useRouter()
 
-const handleSubmit = () => {
-  console.log('Signup data:', { username: username.value, email: email.value, password: password.value })
+const handleSubmit = async () => {
+  loading.value = true
+  errorMessage.value = ''
+
+  try {
+    const data = {
+      id: username.value,
+      email: email.value,
+      password: password.value
+    };
+
+    const users = JSON.parse(localStorage.getItem('users') || '[]');
+    users.push(data);
+
+    localStorage.setItem('users', JSON.stringify(users));
+    localStorage.setItem('currentUser', JSON.stringify({
+      id: data.id,
+      email: data.email
+    }));
+    router.push('/dashboard')
+
+  } catch (err: any) {
+    errorMessage.value = err.message || 'Unexpected error occurred'
+  } finally {
+    loading.value = false
+  }
 }
 </script>
 
@@ -151,6 +186,19 @@ const handleSubmit = () => {
 
 .signup__button:hover {
   opacity: 0.9;
+}
+
+.signup__button:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+/* --- Error --- */
+.signup__error {
+  color: #ef4444;
+  text-align: center;
+  font-size: 0.9rem;
+  margin-top: 0.5rem;
 }
 
 /* --- Footer --- */
