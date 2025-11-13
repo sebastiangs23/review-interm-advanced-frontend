@@ -1,17 +1,12 @@
 import type { User } from "../types/user.d.ts"
-import { useRouter } from "vue-router";
-
-const router = useRouter();
 
 export const logIn = (username: any, password: any) => {
   try{
     const storedUsers = localStorage.getItem("users");
     const users: User[] = storedUsers ? JSON.parse(storedUsers) : [];
-    console.log('users', users)
-    const user = users.find((user) => user.username === username && user.password === password);
-    console.log('username', username, 'password', password)
 
-    console.log('user', user) 
+    const user = users.find((user) => user.username === username && user.password === password);
+
     if(!user){
       alert("Invalid username or password");
       return;
@@ -22,8 +17,7 @@ export const logIn = (username: any, password: any) => {
         message: "Welcome!"
       }
     }
-  }catch(error){
-    console.log(error)
+  }catch(error: any){
     alert("Something went wrong");
   }
 }
@@ -38,9 +32,9 @@ export const getUsers = async () => {
     let responseCurrentUser = storedCurrentUser ? JSON.parse(storedCurrentUser) : null;
     const data = response?.filter((user: any) => {
       
-      return user.id != responseCurrentUser?.id;
+      return user.email != responseCurrentUser?.email;
     });
-    console.log('data', data)
+    
     return data;
   } catch (error) {
     console.log(error);
@@ -48,7 +42,7 @@ export const getUsers = async () => {
 };
 
 export const editUser = (id: number, updatedUser: User) => {
-  const users = JSON.parse(localStorage.getItem("users") || "[]");
+  // const users = JSON.parse(localStorage.getItem("users") || "[]");
   // const index = users.findIndex((user: User) => user.username === id);
   // if (index !== -1) {
   //   users[index] = { ...users[index], ...updatedUser };

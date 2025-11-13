@@ -5,6 +5,43 @@
 :root {
   --font-base: "Nunito Sans", sans-serif;
   --main-color: linear-gradient(90deg, #59c080, #4fadbe);
+  --delete-color: #ef4444;
+  --edit-color: #4fadbe;
+  --permissions-color: #3c4fa4;
+}
+
+/* Modal Buttons */
+.modal__btn {
+  border: none;
+  padding: 0.3rem 0.6rem;
+  border-radius: 0.3rem;
+  cursor: pointer;
+  font-weight: 600;
+  margin: 0.5rem;
+  color: white;
+}
+.modal__btn--edit {
+  background: var(--edit-color);
+  border-radius: 0.5rem;
+}
+.modal__btn--cancel {
+  background: var(--delete-color);
+  border-radius: 0.5rem;
+}
+.modal__btn--permissions {
+  background-color: var(--permissions-color);
+}
+.modal__btn--save {
+
+}
+.modal__add-btn {
+  background: linear-gradient(90deg, #59c080, #4fadbe);
+  color: white;
+  border: none;
+  border-radius: 0.4rem;
+  padding: 0.5rem 1rem;
+  font-weight: 600;
+  cursor: pointer;
 }
 
 html,

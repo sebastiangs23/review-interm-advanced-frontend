@@ -1,6 +1,7 @@
 <script setup>
 import { ref, onMounted } from "vue";
 import { getUsers, editUser, deleteUser } from "../../utils/utils.ts";
+import Modal from "../../components/Modal.vue";
 
 definePageMeta({
   layout: "modules",
@@ -8,27 +9,28 @@ definePageMeta({
 
 const users = ref([]);
 const showModal = ref(false);
+const showModalPermissions = ref(false);
 const editingUser = ref(null);
-const form = ref({ name: "", email: "", password: "" });
+const form = ref({ username: "", email: "", password: "" });
 
 const openCreateModal = () => {
   editingUser.value = null;
-  form.value = { id: "", email: "", password: "" };
+  form.value = { username: "", email: "", password: "" };
   showModal.value = true;
 };
 
 const openEditModal = (user) => {
   editingUser.value = user;
-  form.value = { name: user.name, email: user.email, password: "" };
+  form.value = { username: user.username, password: "" };
   showModal.value = true;
 };
 
 const saveUser = () => {
   if (editingUser.value) {
     // Update existing user
-    editUser(editingUser.value.id, form.value);
+    editUser(editingUser.value.username, form.value);
   } else {
-    const newUser = { ...form.value, id: Date.now() }; // Use timestamp as an ID
+    const newUser = { ...form.value };
     addUser(newUser);
   }
 
@@ -42,14 +44,18 @@ const addUser = (user) => {
   localStorage.setItem("users", JSON.stringify(usersData));
 };
 
-const deleteUserFn = (id) => {
-  deleteUser(id);
+const deleteUserFn = (username) => {
+  deleteUser(username);
   fetchUsers();
+};
+
+const changePermisionsModal = () => {
+  showModalPermissions.value = !showModalPermissions.value;
 };
 
 const closeModal = () => {
   showModal.value = false;
-  form.value = { name: "", email: "", password: "" };
+  form.value = { username: "", email: "", password: "" };
 };
 
 const fetchUsers = () => {
@@ -72,36 +78,39 @@ onMounted(() => {
       </button>
     </header>
 
-    <!-- TABLE -->
+    <!-- TABLE (COMPONENTIZE THIS)-->
     <table class="users__table">
       <thead>
         <tr>
-          <th>ID</th>
+          <th>Username</th>
           <th>Email</th>
           <th>Password</th>
           <th>Permissions</th>
         </tr>
       </thead>
       <tbody>
-        <tr v-for="user in users" :key="user.id">
-          <td>{{ user?.id }}</td>
+        <tr v-for="user in users" :key="user.username">
+          <td>{{ user?.username }}</td>
           <td>{{ user?.email }}</td>
           <td>
             <button
-              class="users__btn users__btn--edit"
+              class="modal__btn modal__btn--edit"
               @click="openEditModal(user)"
             >
               Edit
             </button>
             <button
-              class="users__btn users__btn--delete"
-              @click="deleteUser(user?.id)"
+              class="modal__btn modal__btn--cancel"
+              @click="deleteUser(user?.username)"
             >
               Delete
             </button>
           </td>
-          <td> 
-            <button class="users__btn users__btn--permissions" >
+          <td>
+            <button
+              class="modal__btn modal__btn--permissions"
+              @click="changePermisionsModal(user?.username)"
+            >
               View Permissions
             </button>
           </td>
@@ -116,13 +125,14 @@ onMounted(() => {
 
         <form @submit.prevent="saveUser">
           <input
-            v-model="form.name"
-            placeholder="Name"
+            v-model="form.username"
+            placeholder="Username"
             required
             class="modal__input"
           />
           <input
             v-model="form.email"
+            v-show="!editingUser"
             type="email"
             placeholder="Email"
             required
@@ -151,6 +161,13 @@ onMounted(() => {
         </form>
       </div>
     </div>
+
+    <Modal
+      :show="showModalPermissions"
+      title="Edit Permissions"
+      content="Here you can edit user permissions."
+      @close="changePermisionsModal()"
+    />
   </section>
 </template>
 
@@ -173,15 +190,7 @@ onMounted(() => {
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
 }
-.users__add-btn {
-  background: linear-gradient(90deg, #59c080, #4fadbe);
-  color: white;
-  border: none;
-  border-radius: 0.4rem;
-  padding: 0.5rem 1rem;
-  font-weight: 600;
-  cursor: pointer;
-}
+
 .users__table {
   width: 100%;
   border-collapse: collapse;
@@ -192,25 +201,17 @@ onMounted(() => {
   padding: 0.75rem;
   text-align: left;
 }
-.users__btn {
+.modal__btn {
   border: none;
   padding: 0.3rem 0.6rem;
   border-radius: 0.3rem;
   cursor: pointer;
   font-weight: 600;
 }
-.users__btn--edit {
-  background-color: #4fadbe;
+.modal__btn--edit {
+  background-color: var(--edit-color);
   color: white;
   margin-right: 0.3rem;
-}
-.users__btn--delete {
-  background-color: #ef4444;
-  color: white;
-}
-.users__btn--permissions {
-  background-color: #3c4fa4;
-  color: white;
 }
 
 .modal {
@@ -240,6 +241,15 @@ onMounted(() => {
   justify-content: flex-end;
   gap: 0.5rem;
 }
+.users__add-btn {
+  background: linear-gradient(90deg, #59c080, #4fadbe);
+  color: white;
+  border: none;
+  border-radius: 0.4rem;
+  padding: 0.5rem 1rem;
+  font-weight: 600;
+  cursor: pointer;
+}
 .modal__btn--save {
   background: linear-gradient(90deg, #59c080, #4fadbe);
   color: white;
@@ -247,10 +257,5 @@ onMounted(() => {
   padding: 0.5rem 1rem;
   border-radius: 0.3rem;
 }
-.modal__btn--cancel {
-  background: #ddd;
-  border: none;
-  padding: 0.5rem 1rem;
-  border-radius: 0.3rem;
-}
+
 </style>

@@ -1,7 +1,6 @@
 <script setup lang="ts">
 import { ref } from 'vue'
 import { useRouter } from 'vue-router'
-import { useUserStore } from '../../stores/user.ts'
 import { logIn } from '../utils/utils'
 
 const username = ref('')
@@ -10,7 +9,6 @@ const errorMessage = ref('')
 const loading = ref(false)
 
 const router = useRouter()
-const userStore = useUserStore()
 
 const handleSubmit = async () => {
   errorMessage.value = ''

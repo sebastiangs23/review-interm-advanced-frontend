@@ -8,6 +8,7 @@ export default defineConfig([
   {
     rules: {
     'no-console': 'error',
+    'vue/multi-word-component-names': 0,
     }
   },
   { files: ["**/*.{js,mjs,cjs,ts,mts,cts,vue}"], plugins: { js }, extends: ["js/recommended"], languageOptions: { globals: globals.browser } },
