@@ -10,9 +10,11 @@ definePageMeta({
 
 const user = useUserStore()
 const router = useRouter()
+import { useCurrentUser } from "../../composables/user"
 // const isChecking = ref(true)
 
 onMounted(() => {
+  useCurrentUser()
   // if (!user.isLogged) {
   //   router.push('/')
   // }
