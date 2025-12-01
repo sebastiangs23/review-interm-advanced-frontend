@@ -7,8 +7,7 @@ definePageMeta({
   layout: 'modules'
 })
 
-import { useCurrentUser } from "../../composables/user"
-// const isChecking = ref(true)
+import { useCurrentUser } from "../../composables/currentUser"
 
 onMounted(() => {
   useCurrentUser()

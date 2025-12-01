@@ -1,24 +1,27 @@
-import { useRouter } from 'vue-router'
+import { ref } from "vue";
+import { getUsers, addUser, editUser, deleteUser } from "../utils/utils.ts";
 
-export function useCurrentUser(){
-    const router = useRouter();
-    const isUserLogged = () => {
-        try{
-            const storedUser = localStorage.getItem("currentUser");
-            console.log('storared User', storedUser)
-            if(!storedUser){
-                console.log('gets redirected')
-                router.push('/');
-                return null;
-            }else {
-                console.log('enters here')
-                return JSON.parse(storedUser);
-            };
+const users = ref([]);
 
-        }catch(error){
-            console.log(error);
-        }
+export function useUsers(){
+    const load = async () => {
+        users.value = await getUsers() || [];
     };
 
-    isUserLogged();
-};
+    const add = async (users: any) => {
+        addUser(users);
+        await load();
+    };
+
+    const edit = async (email: string, data: any) => {
+        editUser(email, data);
+        await load();
+    };
+
+    const erase = async (email: string) => {
+        deleteUser(email);
+        await load();
+    }
+
+    return { users, add, edit, erase, load }
+}

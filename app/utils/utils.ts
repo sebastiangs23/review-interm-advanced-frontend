@@ -41,7 +41,7 @@ export const getUsers = async () => {
   }
 };
 
-export const editUser = (id: number, updatedUser: User) => {
+export const editUser = (email: string, updatedUser: User) => {
   // const users = JSON.parse(localStorage.getItem("users") || "[]");
   // const index = users.findIndex((user: User) => user.username === id);
   // if (index !== -1) {
@@ -56,11 +56,20 @@ export const addUser = (user: User) => {
   localStorage.setItem("users", JSON.stringify(users));
 };
 
-export const deleteUser = (id: number) => {
+export const deleteUser = (email: string) => {
+  const currentUser = JSON.parse(localStorage.getItem("currentUser") || "[]");
+  if (currentUser.email === email) alert("You cannot delete yourself");
+
   if (!confirm("Are you sure you want to delete this user?")) return;
+ 
   const users = JSON.parse(localStorage.getItem("users") || "[]");
-  // const updatedUsers = users.filter((user: User) => user.username !== id);
-  // localStorage.setItem("users", JSON.stringify(updatedUsers));
+  const filteredUsers = users.filter((user: User) => user.email !== email);
+  localStorage.setItem("users", JSON.stringify(filteredUsers));
+
+  return {
+    status: 200,
+    message: "User deleted successfully"
+  }
 };
 
 export const logOut = () => {

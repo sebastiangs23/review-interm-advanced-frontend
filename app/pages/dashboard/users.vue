@@ -4,13 +4,16 @@ import { getUsers, editUser, deleteUser } from "../../utils/utils.ts";
 
 import Modal from "../../components/Modal.vue";
 
-import { useCurrentUser } from "../../composables/user";
+import { useUsers } from "../../composables/user"
+import { useCurrentUser } from "../../composables/currentUser";
+
+const { users, load, add, update, remove } = useUsers();
 
 definePageMeta({
   layout: "modules",
 });
 
-const users = ref([]);
+// const users = ref([]);
 const showModal = ref(false);
 const showModalPermissions = ref(false);
 const editingUser = ref(null);
@@ -30,27 +33,21 @@ const openEditModal = (user) => {
 
 const saveUser = () => {
   if (editingUser.value) {
-    // Update existing user
-    editUser(editingUser.value.username, form.value);
+    editUser(editingUser.value.username, form.value); //TODO
   } else {
     const newUser = { ...form.value };
-    addUser(newUser);
+    add(newUser);
   }
 
   fetchUsers();
   closeModal();
 };
 
-const addUser = (user) => {
-  const usersData = JSON.parse(localStorage.getItem("users") || "[]");
-  usersData.push(user);
-  localStorage.setItem("users", JSON.stringify(usersData));
-};
-
-const deleteUserFn = (username) => {
-  deleteUser(username);
-  fetchUsers();
-};
+// const addUser = (user) => {
+//   const usersData = JSON.parse(localStorage.getItem("users") || "[]");
+//   usersData.push(user);
+//   localStorage.setItem("users", JSON.stringify(usersData));
+// };
 
 const changePermisionsModal = () => {
   showModalPermissions.value = !showModalPermissions.value;
@@ -66,6 +63,11 @@ const fetchUsers = () => {
     users.value = data;
   });
 };
+
+const deleteUserFn = (email) => {
+  deleteUser(email);
+  fetchUsers();
+}
 
 onMounted(() => {
   useCurrentUser();
@@ -105,7 +107,7 @@ onMounted(() => {
             </button>
             <button
               class="modal__btn modal__btn--cancel"
-              @click="deleteUser(user?.username)"
+              @click="deleteUserFn(user?.email)"
             >
               Delete
             </button>
