@@ -1,6 +1,5 @@
 <script setup>
 import { ref, onMounted } from "vue";
-import { getUsers, editUser, deleteUser } from "../../utils/utils.ts";
 
 import Modal from "../../components/Modal.vue";
 
@@ -27,13 +26,13 @@ const openCreateModal = () => {
 
 const openEditModal = (user) => {
   editingUser.value = user;
-  form.value = { username: user.username, password: "" };
+  form.value = { username: user.username, email: user.email, password: "" };
   showModal.value = true;
 };
 
 const saveUser = () => {
   if (editingUser.value) {
-    editUser(editingUser.value.username, form.value); //TODO
+    edit(editingUser.value.email, form.value);
   } else {
     const newUser = { ...form.value };
     add(newUser);
@@ -43,12 +42,6 @@ const saveUser = () => {
   closeModal();
 };
 
-// const addUser = (user) => {
-//   const usersData = JSON.parse(localStorage.getItem("users") || "[]");
-//   usersData.push(user);
-//   localStorage.setItem("users", JSON.stringify(usersData));
-// };
-
 const changePermisionsModal = () => {
   showModalPermissions.value = !showModalPermissions.value;
 };
@@ -57,17 +50,6 @@ const closeModal = () => {
   showModal.value = false;
   form.value = { username: "", email: "", password: "" };
 };
-
-// const fetchUsers = () => {
-//   getUsers().then((data) => {
-//     users.value = data;
-//   });
-// };
-
-// const deleteUserFn = (email) => {
-//   deleteUser(email);
-//   fetchUsers();
-// }
 
 onMounted(() => {
   useCurrentUser();
@@ -138,7 +120,7 @@ onMounted(() => {
           />
           <input
             v-model="form.email"
-            v-show="!editingUser"
+            :disabled="editingUser"
             type="email"
             placeholder="Email"
             required

@@ -42,12 +42,20 @@ export const getUsers = async () => {
 };
 
 export const editUser = (email: string, updatedUser: User) => {
-  // const users = JSON.parse(localStorage.getItem("users") || "[]");
-  // const index = users.findIndex((user: User) => user.username === id);
-  // if (index !== -1) {
-  //   users[index] = { ...users[index], ...updatedUser };
-  //   localStorage.setItem("users", JSON.stringify(users));
-  // }
+  const users = JSON.parse(localStorage.getItem("users") || "");
+  const userIndex = users.findIndex((user: User) => user.email === email );
+
+  if(userIndex === -1) {
+    return {
+      status: 404,
+      message: "User not found"
+    }
+  }
+
+  users[userIndex] = updatedUser;
+
+  localStorage.setItem("users", JSON.stringify(users))
+
 };
 
 export const addUser = (user: User) => {
