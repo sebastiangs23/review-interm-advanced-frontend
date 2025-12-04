@@ -73,3 +73,12 @@ bun run preview
 ```
 
 Check out the [deployment documentation](https://nuxt.com/docs/getting-started/deployment) for more information.
+
+# Code conventions
+
+In the files the import order has to be 
+1) Vue methods
+2) Composables
+3) Components
+4) Utils
+

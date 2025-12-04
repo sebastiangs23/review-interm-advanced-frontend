@@ -1,10 +1,12 @@
 <script setup>
 import { ref, onMounted } from "vue";
 
-import Modal from "../../components/Modal.vue";
-
 import { useUsers } from "../../composables/user"
 import { useCurrentUser } from "../../composables/currentUser";
+
+import Modal from "../../components/Modal.vue";
+
+import { usersTable } from "../../utils/common";
 
 const { users, load, add, edit, erase } = useUsers();
 
@@ -12,7 +14,6 @@ definePageMeta({
   layout: "modules",
 });
 
-// const users = ref([]);
 const showModal = ref(false);
 const showModalPermissions = ref(false);
 const editingUser = ref(null);
@@ -70,10 +71,9 @@ onMounted(() => {
     <table class="users__table">
       <thead>
         <tr>
-          <th>Username</th>
-          <th>Email</th>
-          <th>Password</th>
-          <th>Permissions</th>
+          <th v-for="(row, index) in usersTable" :key="index">
+            {{ row }}
+          </th> 
         </tr>
       </thead>
       <tbody>

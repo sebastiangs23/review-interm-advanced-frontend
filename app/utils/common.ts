@@ -1,0 +1,1 @@
+export const usersTable: string[] = ["Username", "Email", "Password", "Permissions"];
