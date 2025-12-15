@@ -30,8 +30,8 @@ onMounted(() => {
       </article>
 
       <article class="home__card">
-        <h3 class="home__card-title">Finance</h3>
-        <p class="home__card-value">↑ 15% growth</p>
+        <h3 class="home__card-title">Store</h3>
+        <p class="home__card-value">↑ 15% growth sales</p>
       </article>
 
       <article class="home__card">

@@ -6,4 +6,9 @@ export default defineNuxtConfig({
   build: {
     sourcemap: true,
   },
+  runtimeConfig: {
+    public: {
+      apiUrl: process.env.API_URL
+    }
+  }
 });

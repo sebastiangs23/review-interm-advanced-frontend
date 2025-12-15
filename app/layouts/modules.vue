@@ -18,13 +18,23 @@ const logOutFn = () => {
 </script>
 <template>
   <div class="modules">
-    <aside class="modules__sidebar">
+    <aside class="modules__sidebar"
+         :style="{
+      background: `linear-gradient(
+        180deg,
+        ${settings.colorPalette},
+        ${settings.background === 'gray'
+          ? '#1f1f1f'
+          : '#ffffff'}
+      )`
+    }"
+    >
       <h2 class="modules__logo">Admin Panel</h2>
 
       <nav class="modules__nav">
         <NuxtLink to="/dashboard/users" class="modules__link">Users</NuxtLink>
-        <NuxtLink to="/dashboard/finance" class="modules__link"
-          >Finance</NuxtLink
+        <NuxtLink to="/dashboard/store" class="modules__link"
+          >Store</NuxtLink
         >
         <NuxtLink to="/dashboard/settings" class="modules__link"
           >Settings</NuxtLink
@@ -39,7 +49,6 @@ const logOutFn = () => {
       }"
     >
       <header class="modules__header">
-        <h1 class="modules__title">Dashboard</h1>
         <button @click="logOutFn()" class="modules__logout">Logout</button>
       </header>
 
@@ -65,11 +74,11 @@ const logOutFn = () => {
 /* --- Sidebar --- */
 .modules__sidebar {
   width: 240px;
-  background: linear-gradient(180deg, #59c080, #4fadbe);
   color: white;
   display: flex;
   flex-direction: column;
   padding: 1.5rem;
+  transition: background 0.3s ease;
 }
 
 .modules__logo {
@@ -111,8 +120,7 @@ const logOutFn = () => {
 
 .modules__header {
   display: flex;
-  justify-content: space-between;
-  align-items: center;
+  justify-content: flex-end;
   padding: 1rem 2rem;
   background-color: #ffffff;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
