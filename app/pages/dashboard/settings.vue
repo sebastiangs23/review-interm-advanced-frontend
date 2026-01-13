@@ -3,10 +3,18 @@ definePageMeta({ layout: "modules" });
 
 import { ref, watch } from "vue";
 import { useSettingsStore } from "../../../stores/settings";
+import ColorPalette from "../../components/ColorPalette.vue";
 
 const settings = useSettingsStore();
 const slider = ref(settings.background === "white" ? 100 : 0);
 const colorPalette = ref(settings.colorPalette);
+const colorButtons = ref(settings.colorButtons);
+
+//mock delete later and make it reusable with the line 6
+const config = [
+  { label: "Color Palette Modules", model: ref(settings.colorPalette) },
+  { label: "Color Palette Buttons", model: ref(settings.colorButtons) },
+];
 
 const updateBackground = () => {
   try {
@@ -21,6 +29,10 @@ const updateBackground = () => {
 // sincroniza cuando cambia el color
 watch(colorPalette, (newColor) => {
   settings.setColorPalette(newColor);
+});
+
+watch(colorButtons, (newColor) => {
+  settings.setColorButtons(newColor);
 });
 </script>
 
@@ -44,7 +56,7 @@ watch(colorPalette, (newColor) => {
       </div>
 
       <div class="settings__color-picker">
-        <label>Color Palette</label>
+        <label>Color Palette Modules</label>
         <input
           type="color"
           v-model="colorPalette"
@@ -61,6 +73,15 @@ watch(colorPalette, (newColor) => {
         <span class="settings__color-hex">
           {{ colorPalette }}
         </span>
+      </div>
+    </section>
+
+    <section>
+      <div v-for="(item, index) in config" :key="index">
+        <ColorPalette
+          :label="item.label"
+          :color="item.model"
+        />
       </div>
     </section>
   </section>
