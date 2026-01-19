@@ -15,7 +15,7 @@ function onInput(e: Event) {
     label: props.label,
     color: target.value
   };
-  
+
   emit("update:modelValue", data);
 }
 
@@ -40,9 +40,14 @@ function onInput(e: Event) {
     <span class="settings__color-hex">
       {{ props.color }}
     </span>
-
-    <pre> ey: {{props.color}} </pre>
   </div>
 </template>
 
-<style scoped></style>
+<style scoped>
+.settings__color-picker {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding: 0.5rem 0;
+}
+</style>
