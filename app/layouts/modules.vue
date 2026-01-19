@@ -1,10 +1,13 @@
 <script setup lang="ts">
 import { useRouter } from "vue-router";
-import { useSettingsStore } from "../../stores/settings.ts";
 import { logOut } from "../utils/utils.ts";
+import { storeToRefs } from "pinia";
+import { useSettingsStore } from "../../stores/settings.ts";
 
 const settings = useSettingsStore();
 const router = useRouter();
+const colorPalette = settings.colorButtons;
+const { colorButtons } = storeToRefs(settings);
 
 definePageMeta({
   layout: "modules",
@@ -19,7 +22,7 @@ const logOutFn = () => {
 <template>
   <div class="modules">
     <aside class="modules__sidebar"
-         :style="{
+      :style="{
       background: `linear-gradient(
         180deg,
         ${settings.colorPalette},
@@ -49,7 +52,19 @@ const logOutFn = () => {
       }"
     >
       <header class="modules__header">
-        <button @click="logOutFn()" class="modules__logout">Logout</button>
+        <button @click="logOutFn()"
+         :style="{
+          background: `linear-gradient(90deg, ${colorButtons}, #4fadbe)`,
+          border: `none`,
+          color: `white`,
+          [border-radius]: `0.4rem`,
+          padding: `0.5rem 1rem`,
+          [font-weight]: 600,
+          cursor: `pointer`,
+         }"
+         class="modules__logout">
+          Logout
+        </button>
       </header>
 
       <main class="modules__content">

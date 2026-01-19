@@ -1,13 +1,12 @@
 <script setup lang="ts">
 import { ref, onMounted } from 'vue'
 import { useRouter } from 'vue-router'
-// import Loader from '../../components/Loader.vue'
+import { useCurrentUser } from "../../composables/currentUser"
 
 definePageMeta({
   layout: 'modules'
 })
 
-import { useCurrentUser } from "../../composables/currentUser"
 
 onMounted(() => {
   useCurrentUser()

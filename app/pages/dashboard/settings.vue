@@ -2,20 +2,19 @@
 definePageMeta({ layout: "modules" });
 
 import { ref, watch } from "vue";
+import { storeToRefs } from "pinia";
 import { useSettingsStore } from "../../../stores/settings";
 import ColorPalette from "../../components/ColorPalette.vue";
 import ColorPaletteSource from "../../components/ColorPalette.vue?raw";
 
 const showCode = ref(false)
 const settings = useSettingsStore();
+const { background, colorPalette, colorButtons } = storeToRefs(settings);
 const slider = ref(settings.background === "white" ? 100 : 0);
-const colorPalette = ref(settings.colorPalette);
-const colorButtons = ref(settings.colorButtons);
 
-//mock delete later and make it reusable with the line 6
 const config = [
-  { label: "Color Palette Modules", model: ref(settings.colorPalette) },
-  { label: "Color Palette Buttons", model: ref(settings.colorButtons) },
+  { label: "Modules", model: colorPalette },
+  { label: "Buttons", model: colorButtons },
 ];
 
 const updateBackground = () => {
@@ -28,16 +27,18 @@ const updateBackground = () => {
   }
 };
 
-// sincroniza cuando cambia el color
-watch(colorPalette, (newColor) => {
-  //the issue is the color is changing inside of the child component, but the father is not able to detect it
-  console.log('SEEEE', colorPalette)
-  settings.setColorPalette(newColor);
-});
-
-watch(colorButtons, (newColor) => {
-  settings.setColorButtons(newColor);
-});
+const updateColor = ({label, color}) => {
+  switch (label){
+    case "Modules": 
+      settings.setColorPalette(color);
+      break;
+    case "Buttons":
+      settings.setColorButtons(color);
+      break;
+    default:
+      break;
+  }
+}
 </script>
 
 <template>
@@ -83,6 +84,7 @@ watch(colorButtons, (newColor) => {
     <section>
       <div v-for="(item, index) in config" :key="index">
         <ColorPalette
+          @update:modelValue="updateColor($event)"
           :label="item.label"
           :color="item.model"
         />

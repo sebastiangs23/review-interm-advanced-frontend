@@ -1,22 +1,34 @@
 <script setup lang="ts">
-// import { ref } from "vue";
-// import { useSettingsStore } from "../../stores/settings";
 
 const props = defineProps<{
   label: string;
   color: string;
 }>();
 
-// const settings = useSettingsStore();
+const emit = defineEmits<{
+  (e: "update:modelValue", value: object): void;
+}>();
 
-// const colorPalette = ref(settings.colorPalette);
+function onInput(e: Event) {
+  const target = e.target as HTMLInputElement;
+  const data = {
+    label: props.label,
+    color: target.value
+  };
+  
+  emit("update:modelValue", data);
+}
 
 </script>
 
 <template>
   <div class="settings__color-picker">
     <label>{{ props.label }}</label>
-    <input type="color" v-model="props.color" class="settings__color-input" />
+    <input 
+      type="color"
+      @input="onInput"
+      class="settings__color-input" 
+    />
 
     <!-- Preview -->
     <div
