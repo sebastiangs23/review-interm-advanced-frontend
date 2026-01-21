@@ -30,13 +30,11 @@ function onInput(e: Event) {
       class="settings__color-input" 
     />
 
-    <!-- Preview -->
     <div
       class="settings__color-preview"
       :style="{ backgroundColor: props.color }"
     ></div>
 
-    <!-- Hex -->
     <span class="settings__color-hex">
       {{ props.color }}
     </span>

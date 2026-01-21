@@ -4,14 +4,14 @@ definePageMeta({ layout: "modules" });
 import { ref, watch } from "vue";
 import { storeToRefs } from "pinia";
 import { useSettingsStore } from "../../../stores/settings";
+import ModalCode from "../../components/ModalCode.vue";
 import ColorPalette from "../../components/ColorPalette.vue";
 import ColorPaletteSource from "../../components/ColorPalette.vue?raw";
 
-const showCode = ref(false)
+const showCode = ref(false);
 const settings = useSettingsStore();
 const { background, colorPalette, colorButtons } = storeToRefs(settings);
 const slider = ref(settings.background === "white" ? 100 : 0);
-
 const config = [
   { label: "Modules", model: colorPalette },
   { label: "Buttons", model: colorButtons },
@@ -20,16 +20,16 @@ const config = [
 const updateBackground = () => {
   try {
     settings.setBackground(
-      slider.value > 80 ? "white" : slider.value >= 50 ? "gray" : "#24947"
+      slider.value > 80 ? "white" : slider.value >= 50 ? "gray" : "#24947",
     );
   } catch (error) {
     alert(`Something went wrong: ${error}.`);
   }
 };
 
-const updateColor = ({label, color}) => {
-  switch (label){
-    case "Modules": 
+const updateColor = ({ label, color }) => {
+  switch (label) {
+    case "Modules":
       settings.setColorPalette(color);
       break;
     case "Buttons":
@@ -38,7 +38,7 @@ const updateColor = ({label, color}) => {
     default:
       break;
   }
-}
+};
 </script>
 
 <template>
@@ -53,16 +53,6 @@ const updateColor = ({label, color}) => {
           :color="item.model"
         />
       </div>
-
-      <button class="show-code" @click="showCode = !showCode">
-        {{ showCode ? 'Hide code' : 'View component code' }}
-      </button>
-
-      <!-- Make it Modal better -->
-      <pre v-if="showCode" class="code-preview">
-        <code>{{ ColorPaletteSource }}</code>
-      </pre>
-
     </section>
   </section>
 </template>
@@ -78,5 +68,4 @@ const updateColor = ({label, color}) => {
   overflow-x: auto;
   max-height: 400px;
 }
-
 </style>

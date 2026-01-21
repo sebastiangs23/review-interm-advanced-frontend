@@ -3,6 +3,7 @@ import { useRouter } from "vue-router";
 import { logOut } from "../utils/utils.ts";
 import { storeToRefs } from "pinia";
 import { useSettingsStore } from "../../stores/settings.ts";
+import ShowCode from "../components/ShowCode.vue"
 
 const settings = useSettingsStore();
 const router = useRouter();
@@ -49,6 +50,9 @@ const logOutFn = () => {
       }"
     >
       <header class="modules__header">
+
+        <ShowCode  />
+
         <button @click="logOutFn()"
          :style="{
           background: `linear-gradient(90deg, ${colorButtons}, #4fadbe)`,
