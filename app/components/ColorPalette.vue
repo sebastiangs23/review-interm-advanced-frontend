@@ -3,6 +3,7 @@
 const props = defineProps<{
   label: string;
   color: string;
+  showHex?: boolean;
 }>();
 
 const emit = defineEmits<{
@@ -18,7 +19,6 @@ function onInput(e: Event) {
 
   emit("update:modelValue", data);
 }
-
 </script>
 
 <template>
@@ -35,7 +35,7 @@ function onInput(e: Event) {
       :style="{ backgroundColor: props.color }"
     ></div>
 
-    <span class="settings__color-hex">
+    <span v-show="props.showHex" class="settings__color-hex">
       {{ props.color }}
     </span>
   </div>

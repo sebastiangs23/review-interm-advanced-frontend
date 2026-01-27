@@ -18,7 +18,7 @@ onMounted(() => {
     <header class="home__header">
       <h2 class="home__title">Dashboard Overview</h2>
       <p class="home__subtitle">
-        Welcome back, Administrator. Here’s a summary of your system activity.
+        Welcome back, Administrator. Here’s a summary of your system activity (for the moment just static HTML).
       </p>
     </header>
 

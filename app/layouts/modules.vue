@@ -3,7 +3,8 @@ import { useRouter } from "vue-router";
 import { logOut } from "../utils/utils.ts";
 import { storeToRefs } from "pinia";
 import { useSettingsStore } from "../../stores/settings.ts";
-import ShowCode from "../components/ShowCode.vue"
+import ShowCode from "../components/ShowCode.vue";
+import { subModules } from "../utils/common";
 
 const settings = useSettingsStore();
 const router = useRouter();
@@ -17,29 +18,30 @@ definePageMeta({
 const logOutFn = () => {
   logOut();
   router.push("/");
-}
-
+};
 </script>
 <template>
   <div class="modules">
-    <aside class="modules__sidebar"
+    <aside
+      class="modules__sidebar"
       :style="{
-      background: `linear-gradient(
+        background: `linear-gradient(
         180deg,
         ${settings.colorPalette},
-        ${settings.background === 'gray'
-          ? '#1f1f1f'
-          : '#ffffff'}
-      )`
-    }"
+        ${settings.background === 'gray' ? '#1f1f1f' : '#ffffff'}
+      )`,
+      }"
     >
       <h2 class="modules__logo">Admin Panel</h2>
 
       <nav class="modules__nav">
-        <NuxtLink to="/dashboard/users" class="modules__link">Users</NuxtLink>
-        <NuxtLink to="/dashboard/api-calls" class="modules__link">API Calls</NuxtLink>
-        <NuxtLink to="/dashboard/store-management" class="modules__link">Store Management</NuxtLink>
-        <NuxtLink to="/dashboard/amazon-web-services" class="modules__link">Amazon Web Services</NuxtLink>
+        <NuxtLink
+          v-for="sub in subModules"
+          :to="sub.to"
+          class="modules__link"
+          :key="sub.route"
+          >{{ sub.name }}
+        </NuxtLink>
       </nav>
     </aside>
 
@@ -50,20 +52,21 @@ const logOutFn = () => {
       }"
     >
       <header class="modules__header">
+        <ShowCode />
 
-        <ShowCode  />
-
-        <button @click="logOutFn()"
-         :style="{
-          background: `linear-gradient(90deg, ${colorButtons}, #4fadbe)`,
-          border: `none`,
-          color: `white`,
-          [border-radius]: `0.4rem`,
-          padding: `0.5rem 1rem`,
-          [font-weight]: 600,
-          cursor: `pointer`,
-         }"
-         class="modules__logout">
+        <button
+          @click="logOutFn()"
+          :style="{
+            background: `linear-gradient(90deg, ${colorButtons}, #4fadbe)`,
+            border: `none`,
+            color: `white`,
+            [border - radius]: `0.4rem`,
+            padding: `0.5rem 1rem`,
+            [font - weight]: 600,
+            cursor: `pointer`,
+          }"
+          class="modules__logout"
+        >
           Logout
         </button>
       </header>
