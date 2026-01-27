@@ -1,34 +1,43 @@
 <script setup>
-// const config = useRuntimeConfig()
+import Loader from "../../components/Loader.vue";
 
 definePageMeta({
-  layout: 'modules'
-})
+  layout: "modules",
+});
 
-import { ref } from "vue"
+import { ref } from "vue";
 
 const items = ref([]);
+const loading = ref(false);
+const error = ref(false);
 
-const getItems = async() => {
-  try{
-    const response = await $fetch("https://fakestoreapi.com/products")
+const getItems = async () => {
+  loading.value = true;
+  error.value = false;
+
+  try {
+    const response = await $fetch("https://fakestoreapi.com/products");
 
     items.value = response;
-  }catch(error){
-    console.log(error)
+  } catch (error) {
+    console.log(error);
+    error.value = true;
+  }finally {
+    loading.value = false;
   }
-}
+};
 
 onMounted(() => {
-  getItems()
-})
-
+  getItems();
+});
 </script>
 
 <template>
+  <Loader v-if="loading" />
+
   <h2 class="store-title">Store</h2>
 
-  <section class="store">
+  <section class="store" v-if="!loading && !error">
     <div class="store-grid">
       <article v-for="item in items" :key="item.id" class="store-item">
         <div class="store-item__image-wrapper">
@@ -44,8 +53,11 @@ onMounted(() => {
       </article>
     </div>
   </section>
-</template>
 
+  <p v-if="error" class="store-error">
+    Failed to load products. Please try again.
+  </p>
+</template>
 
 <style scoped>
 .store-title {
@@ -69,7 +81,9 @@ onMounted(() => {
   border-radius: 16px;
   padding: 1rem;
   box-shadow: 0 8px 24px rgba(0, 0, 0, 0.06);
-  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  transition:
+    transform 0.2s ease,
+    box-shadow 0.2s ease;
   display: flex;
   flex-direction: column;
 }
@@ -128,5 +142,4 @@ onMounted(() => {
 .store-item__button:hover {
   background: #333;
 }
-
 </style>

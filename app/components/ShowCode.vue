@@ -5,7 +5,6 @@ import { useRoute } from "vue-router";
 import ModalCode from "../components/ModalCode.vue";
 
 import { subModules } from "../utils/common";
-import ColorPaletteSource from "../components/ColorPalette.vue?raw";
 
 const props = defineProps<{
   show: boolean;
@@ -19,6 +18,11 @@ const currentSubModule = computed(() => {
   const module = subModules.find((mod) => mod.route === path);
   return module;
 });
+
+const closeModal = () => {
+  console.log('The emit is getting executed');
+  showCode.value = false;
+};
 </script>
 
 <template>
@@ -28,8 +32,8 @@ const currentSubModule = computed(() => {
       </button>
 
       <ModalCode
-        @close="showCode.value = false;"
-        :title="'ColorPalette.vue'"
+        @close="closeModal()"
+        :title="currentSubModule ? currentSubModule.name : 'Component'"
         :sourceCode="currentSubModule?.source"
         :show="showCode"
       />

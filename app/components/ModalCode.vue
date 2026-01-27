@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { computed, onBeforeUnmount, onMounted, ref } from "vue";
+import { computed, onBeforeUnmount, onMounted, ref, watch } from "vue";
 
 const props = defineProps<{
   show: boolean;
@@ -11,19 +11,21 @@ const emit = defineEmits<{
   (e: "close"): void;
 }>();
 
-
 const copied = ref(false);
-let copiedTimer: number | undefined;
 const minimized = ref(false);
+let copiedTimer: number | undefined;
+
+/* Reset minimized state when modal closes */
+watch(
+  () => props.show,
+  (v) => {
+    if (!v) minimized.value = false;
+  }
+);
 
 function close() {
-  console.log("emitting modal");
   minimized.value = false;
   emit("close");
-}
-
-function toggleMinimize() {
-  minimized.value = !minimized.value;
 }
 
 async function copyCode() {
@@ -32,7 +34,6 @@ async function copyCode() {
   } catch {
     const ta = document.createElement("textarea");
     ta.value = props.sourceCode;
-    ta.setAttribute("readonly", "true");
     ta.style.position = "fixed";
     ta.style.left = "-9999px";
     document.body.appendChild(ta);
@@ -42,14 +43,14 @@ async function copyCode() {
   }
 
   copied.value = true;
-
-  window.clearTimeout(copiedTimer);
-  copiedTimer = window.setTimeout(() => (copied.value = false), 1200);
+  clearTimeout(copiedTimer);
+  copiedTimer = window.setTimeout(() => {
+    copied.value = false;
+  }, 1200);
 }
 
 function onKeydown(e: KeyboardEvent) {
-  if (!isVisible.value) return;
-
+  if (!props.show || minimized.value) return;
   if (e.key === "Escape") close();
 }
 
@@ -65,23 +66,29 @@ const isVisible = computed(() => props.show);
       v-if="isVisible"
       class="cm-overlay"
       :class="{ 'is-minimized': minimized }"
-      @click.self="minimized ? (minimized = false) : close()"
+      @click.self.stop="!minimized && close()"
     >
       <div
         class="cm-modal"
         :class="{ 'is-minimized': minimized }"
         role="dialog"
         aria-modal="true"
-        :aria-label="props.title || 'Source code modal'"
+        :aria-label="title || 'Source code modal'"
+        @click="minimized && (minimized = false)"
       >
         <header class="cm-header">
           <div class="cm-title">
-            <span class="cm-dot red" @click="toggleMinimize"></span>
-            <span class="cm-text">{{ props.title ?? "Source code" }}</span>
+            <span class="cm-dot red" @click="close"></span>
+            <span class="cm-text">{{ title ?? "Source code" }}</span>
           </div>
 
           <div class="cm-actions">
-            <button class="cm-btn" type="button" @click="copyCode" aria-label="Copy code">
+            <button
+              class="cm-btn"
+              type="button"
+              @click="copyCode"
+              aria-label="Copy code"
+            >
               <svg class="cm-icon" viewBox="0 0 24 24" fill="none">
                 <path
                   d="M9 9h10v10H9V9Z"
@@ -96,13 +103,15 @@ const isVisible = computed(() => props.show);
                   stroke-linecap="round"
                 />
               </svg>
-              <span class="cm-btn-text">{{ copied ? "Copied" : "Copy" }}</span>
+              <span class="cm-btn-text">
+                {{ copied ? "Copied" : "Copy" }}
+              </span>
             </button>
           </div>
         </header>
 
         <div class="cm-body">
-          <pre class="cm-pre"><code>{{ props.sourceCode }}</code></pre>
+          <pre class="cm-pre"><code>{{ sourceCode }}</code></pre>
         </div>
       </div>
     </div>
@@ -120,18 +129,16 @@ const isVisible = computed(() => props.show);
   place-items: center;
   padding: 24px;
   z-index: 9999;
-
   transition: opacity 220ms ease, backdrop-filter 220ms ease;
 }
 
-/* When minimized, dim the overlay so it feels like it went to the dock */
 .cm-overlay.is-minimized {
   opacity: 0.12;
   backdrop-filter: blur(0px);
-  pointer-events: auto; /* keep it so user can click to restore */
+  pointer-events: none;
 }
 
-/* Modal shell */
+/* Modal */
 .cm-modal {
   width: min(980px, 96vw);
   max-height: 86vh;
@@ -139,24 +146,20 @@ const isVisible = computed(() => props.show);
   flex-direction: column;
   border-radius: 14px;
   overflow: hidden;
-  border: 1px solid rgba(255, 255, 255, 0.08);
-  box-shadow: 0 18px 60px rgba(0, 0, 0, 0.55);
   background: #0f172a;
-
-  /* ✅ Needed for mac minimize feel */
+  box-shadow: 0 18px 60px rgba(0, 0, 0, 0.55);
   transform-origin: top left;
-
   transition: transform 360ms cubic-bezier(0.2, 0.9, 0.2, 1),
               opacity 220ms ease,
               filter 220ms ease;
 }
 
 .cm-modal.is-minimized {
-  /* Fly to bottom-left + shrink */
   transform: translate(calc(-50vw + 68px), calc(50vh - 54px)) scale(0.12);
   opacity: 0.35;
   filter: blur(0.6px);
-  pointer-events: none; /* avoid interacting while minimized */
+  pointer-events: auto;
+  cursor: pointer;
 }
 
 /* Header */
@@ -174,26 +177,22 @@ const isVisible = computed(() => props.show);
   display: flex;
   align-items: center;
   gap: 8px;
-  min-width: 0;
 }
 
 .cm-dot {
   width: 10px;
   height: 10px;
   border-radius: 999px;
-  opacity: 0.95;
   cursor: pointer;
 }
-.cm-dot.red { background: #ff5f56; }
+.cm-dot.red {
+  background: #ff5f56;
+}
 
 .cm-text {
-  margin-left: 6px;
   color: rgba(255, 255, 255, 0.86);
   font-size: 13px;
   letter-spacing: 0.2px;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
 }
 
 /* Actions */
@@ -213,7 +212,8 @@ const isVisible = computed(() => props.show);
   padding: 8px 10px;
   border-radius: 10px;
   cursor: pointer;
-  transition: transform 0.06s ease, background 0.15s ease, border-color 0.15s ease;
+  transition: transform 0.06s ease, background 0.15s ease,
+              border-color 0.15s ease;
 }
 
 .cm-btn:hover {
@@ -233,10 +233,9 @@ const isVisible = computed(() => props.show);
 .cm-btn-text {
   font-size: 12px;
   font-weight: 600;
-  letter-spacing: 0.2px;
 }
 
-/* Body / Code */
+/* Body */
 .cm-body {
   overflow: auto;
 }
@@ -246,10 +245,8 @@ const isVisible = computed(() => props.show);
   padding: 16px;
   background: #0f172a;
   color: #e5e7eb;
-  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas,
-    "Liberation Mono", "Courier New", monospace;
+  font-family: ui-monospace, monospace;
   font-size: 13px;
   line-height: 1.55;
-  white-space: pre;
 }
 </style>
