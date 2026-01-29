@@ -1,15 +1,36 @@
-@import "tailwindcss";
-
 /* Fonts */
 @import url("https://fonts.googleapis.com/css2?family=Nunito+Sans:wght@400;600;700&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Karla:ital,wght@0,200..800;1,200..800&display=swap");
+
 
 /* Global Variables */
 :root {
-  --font-base: "Nunito Sans", sans-serif;
-  --main-color: linear-gradient(90deg, #59c080, #4fadbe);
+  --font-base: "Karla", sans-serif;
+  --bg-color-primary: #212121;
+  --bg-color-secondary: #272727;
+  --color-text-primary: #FFFFFF;
+  --color-base: #abf600;
+  --input-bg-color: #404040;
+  --main-color: linear-gradient(90deg, #bec059, #4fadbe);
   --delete-color: #ef4444;
   --edit-color: #4fadbe;
   --permissions-color: #3c4fa4;
+}
+
+/* TailwindCss */
+@import "tailwindcss";
+
+
+@layer components {
+  .btn {
+    @apply inline-flex items-center justify-center px-4 py-2 rounded-full border text-black font-bold;
+    background: var(--color-base);
+    border-color: var(--black-color); 
+  }
+
+  .btn:hover {
+    filter: brightness(0.95);
+  }
 }
 
 /* Modal Buttons */
@@ -34,7 +55,6 @@
   background-color: var(--permissions-color);
 }
 .modal__btn--save {
-
 }
 .modal__add-btn {
   background: linear-gradient(90deg, #59c080, #4fadbe);

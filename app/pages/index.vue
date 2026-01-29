@@ -1,33 +1,33 @@
 <!-- eslint-disable vue/multi-word-component-names -->
 
 <script setup lang="ts">
-import { ref } from 'vue'
-import { useRouter } from 'vue-router'
-import { logIn } from '../utils/utils'
+import { ref } from "vue";
+import { useRouter } from "vue-router";
+import { logIn } from "../utils/utils";
 
-const username = ref('')
-const password = ref('')
-const errorMessage = ref('')
-const loading = ref(false)
+const username = ref("");
+const password = ref("");
+const errorMessage = ref("");
+const loading = ref(false);
 
-const router = useRouter()
+const router = useRouter();
 
 const handleSubmit = async () => {
-  errorMessage.value = ''
+  errorMessage.value = "";
 
   try {
     const response = logIn(username.value, password.value);
-    if(response?.status === "success"){
-      router.push('/dashboard');
-    };
+    if (response?.status === "success") {
+      router.push("/dashboard");
+    }
   } catch (err) {
-    errorMessage.value = err.message || 'Unexpected error occurred'
+    errorMessage.value = err.message || "Unexpected error occurred";
   }
-}
+};
 </script>
 
 <template>
-  <main class="login">
+  <main class="login font-bold">
     <section class="login__container">
       <header class="login__header">
         <h1 class="login__title">Login</h1>
@@ -35,8 +35,8 @@ const handleSubmit = async () => {
       </header>
 
       <form class="login__form" @submit.prevent="handleSubmit">
-        <div class="login__field">
-          <label for="username" class="login__label">Username</label>
+        <div class="flex flex-col">
+          <label for="username" class="login__label mb-2">Username</label>
           <input
             id="username"
             type="text"
@@ -47,8 +47,8 @@ const handleSubmit = async () => {
           />
         </div>
 
-        <div class="login__field">
-          <label for="password" class="login__label">Password</label>
+        <div class="flex flex-col">
+          <label for="password" class="login__label mb-2">Password</label>
           <input
             id="password"
             type="password"
@@ -59,8 +59,8 @@ const handleSubmit = async () => {
           />
         </div>
 
-        <button type="submit" class="login__button" :disabled="loading">
-          {{ loading ? 'Signing in...' : 'Sign In' }}
+        <button type="submit" class="btn" :disabled="loading">
+          {{ loading ? "Signing in..." : "Sign In" }}
         </button>
 
         <p v-if="errorMessage" class="login__error">{{ errorMessage }}</p>
@@ -82,12 +82,13 @@ const handleSubmit = async () => {
   align-items: center;
   justify-content: center;
   min-height: 100vh;
-  background: linear-gradient(135deg, #e9f7ef, #e6f4f9);
-  font-family: 'Inter', sans-serif;
+  background: var(--bg-color-primary);
+  font-family: var(--font-base);
+  font-weight: 700;
 }
 
 .login__container {
-  background-color: #ffffff;
+  background-color: var(--bg-color-secondary);
   padding: 2.5rem;
   border-radius: 1.25rem;
   box-shadow: 0 6px 20px rgba(0, 0, 0, 0.08);
@@ -103,9 +104,7 @@ const handleSubmit = async () => {
 .login__title {
   font-size: 2rem;
   font-weight: 700;
-  background: linear-gradient(90deg, #59c080, #4fadbe);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
+  color: var(--color-text-primary);
 }
 
 .login__subtitle {
@@ -121,31 +120,28 @@ const handleSubmit = async () => {
 
 .login__label {
   font-weight: 500;
-  color: #374151;
-  margin-bottom: 0.25rem;
-  margin-right: 0.5rem;
+  color: var(--color-text-primary);
 }
 
 .login__input {
+  @apply rounded-full;
   padding: 0.75rem 1rem;
   border: 1px solid #d1d5db;
-  border-radius: 0.5rem;
   transition: 0.2s;
-}
-
-.login__input:focus {
-  border-color: #4fadbe;
-  box-shadow: 0 0 0 3px rgba(79, 173, 190, 0.2);
+  background: var(--input-bg-color);
+  color: var(--color-text-primary);
+  font-family: var(--font-base);
 }
 
 .login__button {
-  background: linear-gradient(90deg, #59c080, #4fadbe);
-  color: white;
-  border: none;
-  border-radius: 0.5rem;
+  @apply rounded-full;
+  background: #abf600;
+  color: #000000;
+  border-width: 1px;
+  border-style: solid;
+  border-image: initial;
+  border-color: var(--black-color);
   padding: 0.75rem;
-  cursor: pointer;
-  font-weight: 600;
   transition: 0.25s;
 }
 
