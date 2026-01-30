@@ -27,153 +27,80 @@ const handleSubmit = async () => {
 </script>
 
 <template>
-  <main class="login font-bold">
-    <section class="login__container">
-      <header class="login__header">
-        <h1 class="login__title">Login</h1>
-        <p class="login__subtitle">Welcome back! Please sign in to continue.</p>
+  <main
+    class="bg-[var(--bg-color-primary)] flex font-bold font-bold items-center justify-center min-h-screen"
+  >
+    <section
+      class="bg-[var(--bg-color-secondary)] rounded-[1.25rem] max-w-95 p-10 w-full btn__shadow"
+    >
+      <header class="text-center mb-6">
+        <h1 class="text-[2rem] font-bold text-[var(--color-text-primary)]">
+          Login
+        </h1>
+        <p class="text-[0.95rem] text-gray-500">
+          Welcome back! Please sign in to continue.
+        </p>
       </header>
 
-      <form class="login__form" @submit.prevent="handleSubmit">
+      <form class="flex flex-col gap-4" @submit.prevent="handleSubmit">
         <div class="flex flex-col">
-          <label for="username" class="login__label mb-2">Username</label>
+          <label
+            for="username"
+            class="mb-2 font-medium text-[var(--color-text-primary)]"
+          >
+            Username
+          </label>
           <input
             id="username"
             type="text"
             placeholder="Enter your username"
-            class="login__input"
+            class="rounded-full px-4 py-3 border border-gray-300 transition bg-[var(--input-bg-color)] text-[var(--color-text-primary)] font-[var(--font-base)]"
             v-model="username"
             required
           />
         </div>
 
         <div class="flex flex-col">
-          <label for="password" class="login__label mb-2">Password</label>
+          <label
+            for="password"
+            class="mb-2 font-medium text-[var(--color-text-primary)]"
+          >
+            Password
+          </label>
           <input
             id="password"
             type="password"
             placeholder="Enter your password"
-            class="login__input"
+            class="rounded-full px-4 py-3 border border-gray-300 transition bg-[var(--input-bg-color)] text-[var(--color-text-primary)] font-[var(--font-base)]"
             v-model="password"
             required
           />
         </div>
 
-        <button type="submit" class="btn" :disabled="loading">
+        <button
+          type="submit"
+          :disabled="loading"
+          class="mt-1 inline-flex items-center justify-center rounded-full border border-[var(--black-color)] bg-[var(--color-base)] px-4 py-3 font-bold text-black btn__shadow disabled:opacity-60 disabled:cursor-not-allowed"
+        >
           {{ loading ? "Signing in..." : "Sign In" }}
         </button>
 
-        <p v-if="errorMessage" class="login__error">{{ errorMessage }}</p>
+        <p v-if="errorMessage" class="mt-2 text-center text-sm text-red-500">
+          {{ errorMessage }}
+        </p>
       </form>
 
-      <footer class="login__footer">
-        <p class="login__text">
+      <footer class="text-center mt-6">
+        <p class="text-[var(--color-text-primary)]">
           Don’t have an account?
-          <NuxtLink to="/signup" class="login__link">Create one</NuxtLink>
+          <NuxtLink
+            to="/signup"
+            class="font-semibold text-[#4fadbe] no-underline hover:text-[#59c080]"
+          >
+            Create one
+          </NuxtLink>
         </p>
       </footer>
     </section>
   </main>
 </template>
-
-<style scoped>
-.login {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  min-height: 100vh;
-  background: var(--bg-color-primary);
-  font-family: var(--font-base);
-  font-weight: 700;
-}
-
-.login__container {
-  background-color: var(--bg-color-secondary);
-  padding: 2.5rem;
-  border-radius: 1.25rem;
-  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.08);
-  width: 100%;
-  max-width: 380px;
-}
-
-.login__header {
-  text-align: center;
-  margin-bottom: 1.5rem;
-}
-
-.login__title {
-  font-size: 2rem;
-  font-weight: 700;
-  color: var(--color-text-primary);
-}
-
-.login__subtitle {
-  font-size: 0.95rem;
-  color: #6b7280;
-}
-
-.login__form {
-  display: flex;
-  flex-direction: column;
-  gap: 1rem;
-}
-
-.login__label {
-  font-weight: 500;
-  color: var(--color-text-primary);
-}
-
-.login__input {
-  @apply rounded-full;
-  padding: 0.75rem 1rem;
-  border: 1px solid #d1d5db;
-  transition: 0.2s;
-  background: var(--input-bg-color);
-  color: var(--color-text-primary);
-  font-family: var(--font-base);
-}
-
-.login__button {
-  @apply rounded-full;
-  background: #abf600;
-  color: #000000;
-  border-width: 1px;
-  border-style: solid;
-  border-image: initial;
-  border-color: var(--black-color);
-  padding: 0.75rem;
-  transition: 0.25s;
-}
-
-.login__button:hover {
-  opacity: 0.9;
-}
-
-.login__button:disabled {
-  opacity: 0.6;
-  cursor: not-allowed;
-}
-
-.login__error {
-  color: #ef4444;
-  text-align: center;
-  font-size: 0.9rem;
-  margin-top: 0.5rem;
-}
-
-.login__footer {
-  text-align: center;
-  margin-top: 1.5rem;
-}
-
-.login__link {
-  color: #4fadbe;
-  text-decoration: none;
-  font-weight: 600;
-  transition: color 0.2s;
-}
-
-.login__link:hover {
-  color: #59c080;
-}
-</style>

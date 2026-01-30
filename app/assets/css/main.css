@@ -23,9 +23,14 @@
 
 @layer components {
   .btn {
-    @apply inline-flex items-center justify-center px-4 py-2 rounded-full border text-black font-bold;
+    @apply inline-flex items-center justify-center px-4 py-2 rounded-full border text-black font-bold pb-4;
     background: var(--color-base);
     border-color: var(--black-color); 
+  }
+
+  .btn__shadow {
+    box-shadow:
+      inset 0 -6px 0 rgba(0, 0, 0, 0.55); 
   }
 
   .btn:hover {
@@ -68,9 +73,6 @@
 
 html,
 body {
-  font: var(--font-base);
+  font-family: var(--font-base);
   color: #111827;
-  background-color: #f9fafb;
-  margin: 0;
-  padding: 0;
 }
