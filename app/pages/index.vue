@@ -6,7 +6,7 @@ import { useRouter } from "vue-router";
 import { logIn } from "../utils/utils";
 import { useToast } from "vue-toastification";
 
-import { imgs } from "../assets/css/imgs/imgs";
+import logo from "../assets/sg-logo.png";
 
 const router = useRouter();
 const toast = useToast();
@@ -44,17 +44,21 @@ const notifyFrontendOnly = (provider: string) => {
   <main
     class="bg-[var(--bg-color-primary)] flex font-bold font-bold items-center justify-center min-h-screen"
   >
+    <header class="absolute top-2 left-2 sm:top-6 sm:left-6">
+      <img :src="logo" class="w-24" alt="Logo" />
+    </header>
+
     <section
-      class="bg-[var(--bg-color-secondary)] rounded-[1.25rem] max-w-95 p-10 w-full btn__shadow"
+      class="bg-[var(--bg-color-secondary)] rounded-[1.25rem] sm:mt-0 max-w-95 p-10 mt-12 w-full btn__shadow"
     >
-      <header class="text-center mb-6">
-        <h1 class="text-[2rem] font-bold text-[var(--color-text-primary)]">
+      <div class="text-center mb-6">
+        <h1 class="text-[2rem] font-bold text-[var(--bg-color-primary)] bg-[var(--color-base)] rounded-2xl px-4 mb-4">
           Login
         </h1>
         <p class="text-[0.95rem] text-gray-500">
           Welcome back! Please sign in to continue.
         </p>
-      </header>
+      </div>
 
       <form class="flex flex-col gap-4" @submit.prevent="handleSubmit">
         <div class="flex flex-col">
