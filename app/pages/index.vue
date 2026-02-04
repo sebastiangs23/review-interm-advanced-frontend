@@ -110,7 +110,7 @@ const notifyFrontendOnly = (provider: string) => {
         <div class="flex justify-center gap-3">
           <button
             type="button"
-            class="hover-style_v2 hover-style_v2--small cursor-pointer"
+            class="wave-style wave-style--small cursor-pointer"
             @click="notifyFrontendOnly('Google')"
             aria-label="Google login demo"
           >
@@ -119,7 +119,7 @@ const notifyFrontendOnly = (provider: string) => {
 
           <button
             type="button"
-            class="hover-style_v2 hover-style_v2--small cursor-pointer"
+            class="wave-style wave-style--small cursor-pointer"
             @click="notifyFrontendOnly('GitHub')"
             aria-label="GitHub login demo"
           >
@@ -128,7 +128,7 @@ const notifyFrontendOnly = (provider: string) => {
 
           <button
             type="button"
-            class="hover-style_v2 hover-style_v2--small cursor-pointer"
+            class="wave-style wave-style--small cursor-pointer"
             @click="notifyFrontendOnly('Apple')"
             aria-label="Apple login demo"
           >

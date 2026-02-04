@@ -65,15 +65,12 @@ const logOutFn = () => {
         </NuxtLink>
       </nav>
     </aside>
-
+    
     <section
-      class="flex flex-col flex-1 p-6"
-      :style="{
-        backgroundColor: settings.background === 'gray' ? '#f3f4f6' : 'white',
-      }"
+      class="flex flex-col flex-1 p-6 bg-(--bg-color-third)"
     >
       <header
-        class="flex items-center justify-between gap-4 px-3 md:px-4 py-3 bg-white rounded-[14px]"
+        class="flex items-center justify-between gap-4 px-3 md:px-4 py-3 rounded-[14px] bg-[var(--input-bg-color)] btn__shadow pb-6 border-2 border-[var(--color-dark)]"
       >
         <!-- Mobile toggle -->
         <button class="md:hidden p-2" @click="isSidebarOpen = !isSidebarOpen">
@@ -81,8 +78,10 @@ const logOutFn = () => {
         </button>
 
         <ShowCode />
-
-        <button @click="logOutFn()" class="modules__logout">Logout</button>
+        
+        <button @click="logOutFn()" class="bg-[var(--color-base)] p-4 btn">
+          LOGOUT
+        </button>
       </header>
 
       <main class="flex-1 p-4 md:p-[2rem]">
@@ -91,20 +90,3 @@ const logOutFn = () => {
     </section>
   </div>
 </template>
-
-<style scoped>
-.modules__logout {
-  background: linear-gradient(90deg, #59c080, #4fadbe);
-  border: none;
-  color: white;
-  border-radius: 0.4rem;
-  padding: 0.5rem 1rem;
-  font-weight: 600;
-  cursor: pointer;
-  transition: opacity 0.2s;
-}
-
-.modules__logout:hover {
-  opacity: 0.9;
-}
-</style>
