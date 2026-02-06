@@ -1,5 +1,5 @@
 <script setup>
-// import Loader from "~/components/Loader.vue";
+import Loader from "~/components/Loader.vue";
 
 definePageMeta({
   layout: "modules",
@@ -33,7 +33,7 @@ onMounted(() => {
 </script>
 
 <template>
-  <!-- <Loader v-if="loading" /> -->
+  <Loader v-if="loading" />
 
   <h2 class="store-title">Store</h2>
 
