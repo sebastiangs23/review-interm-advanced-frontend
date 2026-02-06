@@ -1,42 +1,43 @@
 <script setup lang="ts">
 import { onMounted, reactive, watch, computed } from "vue";
+import { useToast } from "vue-toastification";
 import { XMarkIcon, CheckCircleIcon } from "@heroicons/vue/24/outline";
 import { subModules } from "../../utils/common";
 
-defineProps<{
+import type { User } from "../../types/user.d.ts";
+
+const props = defineProps<{
   show: boolean;
-  user: object;
+  user: User;
   modelValue?: Record<string, boolean>;
 }>();
+
 
 const emit = defineEmits<{
   (e: "close"): void;
   (e: "save", permissions: Record<string, boolean>): void;
 }>();
 
-const permissions = reactive<Record<string, boolean>>({});
-
-/**
- * Initialize permissions when modal opens
- */
-watch(
-  () => subModules,
-  () => {
-    subModules.forEach((module) => {
-      if (!(module.route in permissions)) {
-        permissions[module.route] = false;
-      }
-    });
-  },
-  { immediate: true },
-);
+const toast = useToast();
 
 const iconMap = computed(() => {
   return Object.fromEntries(subModules.map((m) => [m.name, m.icon]));
 });
 
+//TODO: Add error handling 
 const savePermissions = () => {
-  emit("save", { ...permissions });
+  const users = JSON.parse(localStorage.getItem("users") || "[]");
+
+  const updatedUsers = users.map((u: User) =>
+    u.email === props.user.email ? props.user : u
+  );
+
+  localStorage.setItem("users", JSON.stringify(updatedUsers));
+  emit('close')
+  toast.success(
+      `User "${props.user?.username}" permissions updated successfully.`,
+    );
+
 };
 </script>
 

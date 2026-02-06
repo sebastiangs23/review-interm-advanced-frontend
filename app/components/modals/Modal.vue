@@ -60,6 +60,7 @@ const confirmAction = () => {
         {{ content }}
       </p>
 
+      <!-- TODO: Style the form acording to the color palette -->
       <!-- FORM -->
       <div class="space-y-4 mb-6">
         <input

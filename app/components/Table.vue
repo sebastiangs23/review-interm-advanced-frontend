@@ -57,11 +57,11 @@ const emit = defineEmits(["selectUser", "delete"]);
             <div class="flex items-center gap-3">
               <!-- EDIT -->
               <button
-                class="p-2 rounded-lg bg-[var(--edit-color)]/20 hover:bg-[var(--edit-color)]/40 transition"
+                class="p-2 rounded-lg bg-[var(--color-base)]/20 hover:bg-[var(--edit-color)]/40 transition"
                 @click="emit('selectUser', user, 'edit')"
                 title="Edit user"
               >
-                <PencilSquareIcon class="w-5 h-5 text-[var(--edit-color)]" />
+                <PencilSquareIcon class="w-5 h-5 text-[var(--color-base)]" />
               </button>
 
               <!-- DELETE -->
