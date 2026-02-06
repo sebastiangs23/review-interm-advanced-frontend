@@ -19,7 +19,10 @@ export function useUsers(){
     };
 
     const erase = async (email: string) => {
-        deleteUser(email);
+        const response = deleteUser(email);
+        if(response?.status === 200){
+            return response;
+        }
         await load();
     }
 

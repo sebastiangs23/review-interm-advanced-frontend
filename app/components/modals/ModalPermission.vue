@@ -60,7 +60,7 @@ const savePermissions = () => {
           <XMarkIcon class="w-5 h-5 text-gray-300" />
         </button>
       </div>
-
+      
       <!-- MODULES -->
       <div class="space-y-4 max-h-[60vh] overflow-y-auto pr-2">
         <div

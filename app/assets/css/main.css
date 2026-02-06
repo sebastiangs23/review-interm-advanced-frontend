@@ -147,6 +147,11 @@ body {
 }
 
 /* Vue Toastification Overrides */
+.Vue-Toastification__toast--success  {
+  background-color: var(--color-base) !important;
+  color: #000 !important;
+}
+
 .Vue-Toastification__toast--info {
   background-color: var(--color-base) !important;
   color: #000 !important;

@@ -93,15 +93,12 @@ const askDelete = (user) => {
 
 const confirmDelete = async () => {
   if (!userToDelete.value) return;
-
-  const result = erase(userToDelete.value);
-
-  //TODO: This return a promise
+  
+  const result = await erase(userToDelete.value?.email);
+  
   if (result?.status !== 200) {
-    console.log("error", result);
     toast.error(result.message);
   } else {
-    console.log("sucess");
     toast.success(result.message);
     load();
   }
