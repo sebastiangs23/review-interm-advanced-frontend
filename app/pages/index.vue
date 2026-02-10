@@ -40,6 +40,7 @@ const notifyFrontendOnly = (provider: string) => {
     );
   }
 };
+
 </script>
 
 <template>

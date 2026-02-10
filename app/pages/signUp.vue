@@ -1,15 +1,22 @@
 <script setup lang="ts">
 import { ref } from 'vue'
 import { useRouter } from 'vue-router'
+import { useNuxtApp } from '#app'
+
+import { useUsers } from "../composables/user";
 
 import logo from "../assets/sg-logo.png";
 
-const username = ref('')
-const email = ref('')
-const password = ref('')
-const loading = ref(false)
-const errorMessage = ref('')
 const router = useRouter()
+const { $toast } = useNuxtApp();
+const { add } = useUsers();
+
+const username = ref<string>('')
+const email = ref<string>('')
+const password = ref<string>('')
+const loading = ref<boolean>(false)
+const errorMessage = ref<string>('')
+
 
 const handleSubmit = async () => {
   loading.value = true
@@ -22,14 +29,9 @@ const handleSubmit = async () => {
       password: password.value
     };
 
-    const users = JSON.parse(localStorage.getItem('users') || '[]');
-    users.push(data);
-
-    localStorage.setItem('users', JSON.stringify(users));
-    localStorage.setItem('currentUser', JSON.stringify({
-      username: data.username,
-      email: data.email
-    }));
+    add(data);
+    $toast.success('Account created successfully! Redirecting to dashboard...')
+    localStorage.setItem("currentUser", JSON.stringify(data));
     router.push('/dashboard')
 
   } catch (err: any) {
