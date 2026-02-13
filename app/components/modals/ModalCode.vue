@@ -126,9 +126,16 @@ const isVisible = computed(() => props.show);
   backdrop-filter: blur(6px);
   display: grid;
   place-items: center;
-  padding: 24px;
+  padding: 16px;
   z-index: 9999;
   transition: opacity 220ms ease, backdrop-filter 220ms ease;
+}
+
+/* More padding on larger screens */
+@media (min-width: 640px) {
+  .cm-overlay {
+    padding: 24px;
+  }
 }
 
 .cm-overlay.is-minimized {
@@ -139,8 +146,9 @@ const isVisible = computed(() => props.show);
 
 /* Modal */
 .cm-modal {
-  width: min(980px, 96vw);
-  max-height: 86vh;
+  width: 100%;
+  max-width: 980px;
+  max-height: 90vh;
   display: flex;
   flex-direction: column;
   border-radius: 14px;
@@ -148,9 +156,18 @@ const isVisible = computed(() => props.show);
   background: #0f172a;
   box-shadow: 0 18px 60px rgba(0, 0, 0, 0.55);
   transform-origin: top left;
-  transition: transform 360ms cubic-bezier(0.2, 0.9, 0.2, 1),
-              opacity 220ms ease,
-              filter 220ms ease;
+  transition:
+    transform 360ms cubic-bezier(0.2, 0.9, 0.2, 1),
+    opacity 220ms ease,
+    filter 220ms ease;
+}
+
+/* Small screen improvement */
+@media (max-width: 640px) {
+  .cm-modal {
+    border-radius: 12px;
+    max-height: 92vh;
+  }
 }
 
 .cm-modal.is-minimized {
@@ -167,9 +184,23 @@ const isVisible = computed(() => props.show);
   align-items: center;
   justify-content: space-between;
   gap: 12px;
-  padding: 12px 14px;
+  padding: 10px 12px;
   background: #0b1224;
   border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+  flex-wrap: wrap;
+}
+
+/* Stack properly on small screens */
+@media (max-width: 480px) {
+  .cm-header {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .cm-actions {
+    width: 100%;
+    justify-content: flex-end;
+  }
 }
 
 .cm-title {
@@ -208,11 +239,13 @@ const isVisible = computed(() => props.show);
   border: 1px solid rgba(255, 255, 255, 0.12);
   background: rgba(255, 255, 255, 0.04);
   color: rgba(255, 255, 255, 0.9);
-  padding: 8px 10px;
+  padding: 6px 10px;
   border-radius: 10px;
   cursor: pointer;
-  transition: transform 0.06s ease, background 0.15s ease,
-              border-color 0.15s ease;
+  transition:
+    transform 0.06s ease,
+    background 0.15s ease,
+    border-color 0.15s ease;
 }
 
 .cm-btn:hover {
@@ -225,8 +258,8 @@ const isVisible = computed(() => props.show);
 }
 
 .cm-icon {
-  width: 18px;
-  height: 18px;
+  width: 16px;
+  height: 16px;
 }
 
 .cm-btn-text {
@@ -237,15 +270,28 @@ const isVisible = computed(() => props.show);
 /* Body */
 .cm-body {
   overflow: auto;
+  flex: 1;
 }
 
+/* Code block */
 .cm-pre {
   margin: 0;
-  padding: 16px;
+  padding: 14px;
   background: #0f172a;
   color: #e5e7eb;
   font-family: ui-monospace, monospace;
-  font-size: 13px;
-  line-height: 1.55;
+  font-size: 12px;
+  line-height: 1.5;
+  white-space: pre;
+  overflow-x: auto;
 }
+
+/* Slightly larger code on bigger screens */
+@media (min-width: 768px) {
+  .cm-pre {
+    font-size: 13px;
+    padding: 16px;
+  }
+}
+
 </style>

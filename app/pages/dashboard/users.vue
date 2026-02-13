@@ -12,7 +12,7 @@ import { PlusCircleIcon } from "@heroicons/vue/24/outline";
 
 import { usersTable } from "../../utils/common";
 
-const { $toast } = useNuxtApp()
+const { $toast } = useNuxtApp();
 const { users, load, add, edit, erase } = useUsers();
 
 definePageMeta({
@@ -91,9 +91,9 @@ const askDelete = (user) => {
 
 const confirmDelete = async () => {
   if (!userToDelete.value) return;
-  
+
   const result = await erase(userToDelete.value?.email);
-  
+
   if (result?.status !== 200) {
     $toast.error(result.message);
   } else {
@@ -118,17 +118,19 @@ onMounted(() => {
 
 <template>
   <section
-    class="bg-(--input-bg-color) border-dark btn__shadow border-2 p-6 rounded-[14px]"
+    class="w-full bg-(--input-bg-color) border-dark border-2 btn__shadow rounded-[14px] p-4 sm:p-6 lg:p-8"
   >
-    <header class="flex items-center justify-between mb-6">
+    <header
+      class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-6"
+    >
       <h1
-        class="text-2xl font-bold tracking-tight text-[var(--color-text-primary)]"
+        class="text-xl sm:text-2xl lg:text-3xl font-bold tracking-tight text-[var(--color-text-primary)]"
       >
         Users Management
       </h1>
 
       <button
-        class="flex items-center gap-2 bg-[var(--bg-color-third)] text-[var(--color-text-primary)] px-5 py-3 rounded-xl hover:bg-[var(--bg-color-secondary)] btn__shadow transition"
+        class="flex items-center justify-center gap-2 w-full sm:w-auto bg-[var(--bg-color-third)] text-[var(--color-text-primary)] px-4 sm:px-5 py-2.5 sm:py-3 rounded-xl hover:bg-[var(--bg-color-secondary)] btn__shadow transition"
         @click="openCreateModal"
       >
         <PlusCircleIcon class="w-5 h-5" />
@@ -168,53 +170,3 @@ onMounted(() => {
     />
   </section>
 </template>
-
-<style scoped>
-.modal__btn {
-  border: none;
-  padding: 0.3rem 0.6rem;
-  border-radius: 0.3rem;
-  cursor: pointer;
-  font-weight: 600;
-}
-.modal__btn--edit {
-  background-color: var(--edit-color);
-  color: white;
-  margin-right: 0.3rem;
-}
-
-.modal {
-  position: fixed;
-  inset: 0;
-  background: rgba(0, 0, 0, 0.5);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-.modal__content {
-  background: white;
-  padding: 2rem;
-  border-radius: 0.8rem;
-  width: 400px;
-}
-.modal__input {
-  display: block;
-  width: 100%;
-  padding: 0.5rem;
-  margin-bottom: 1rem;
-  border: 1px solid #ccc;
-  border-radius: 0.3rem;
-}
-.modal__actions {
-  display: flex;
-  justify-content: flex-end;
-  gap: 0.5rem;
-}
-.modal__btn--save {
-  background: linear-gradient(90deg, #59c080, #4fadbe);
-  color: white;
-  border: none;
-  padding: 0.5rem 1rem;
-  border-radius: 0.3rem;
-}
-</style>

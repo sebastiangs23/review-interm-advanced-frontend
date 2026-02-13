@@ -79,12 +79,12 @@ const logOutFn = () => {
 
         <ShowCode />
         
-        <button @click="logOutFn()" class="bg-[var(--color-base)] p-4 btn">
+        <button @click="logOutFn()" class="bg-[var(--color-base)] p-4 btn text-xs sm:text-base ">
           LOGOUT
         </button>
       </header>
 
-      <main class="flex-1 p-4 md:p-[2rem]">
+      <main class="flex-1 md:p-[2rem]  ">
         <slot />
       </main>
     </section>
