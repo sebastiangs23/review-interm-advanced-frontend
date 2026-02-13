@@ -146,7 +146,7 @@ const notifyFrontendOnly = (provider: string) => {
           Don’t have an account?
           <NuxtLink
             to="/signup"
-            class="font-semibold text-[#4fadbe] no-underline hover:text-[#59c080]"
+            class="font-semibold text-[var(--color-base-secondary)] no-underline hover:text-[var(--color-base)]"
           >
             Create one
           </NuxtLink>

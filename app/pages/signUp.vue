@@ -106,7 +106,7 @@ const handleSubmit = async () => {
       <footer class="text-center mt-6">
         <p class="text-[var(--color-text-primary)]">
           Already have an account?
-          <NuxtLink to="/" class="font-semibold text-[#4fadbe] no-underline hover:text-[#59c080]">Sign in</NuxtLink>
+          <NuxtLink to="/" class="font-semibold text-[var(--color-base-secondary)] no-underline hover:text-[var(--color-base)]">Sign in</NuxtLink>
         </p>
       </footer>
     </section>

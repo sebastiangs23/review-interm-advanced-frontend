@@ -16,6 +16,7 @@ body {
   --bg-color-third: #2c2c2c;
   --color-text-primary: #ffffff;
   --color-base: #abf600;
+  --color-base-secondary: #8bc404;
   --input-bg-color: #404040;
   --main-color: linear-gradient(90deg, #bec059, #4fadbe);
   --delete-color: #ef4444;
