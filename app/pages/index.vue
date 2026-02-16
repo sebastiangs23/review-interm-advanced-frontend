@@ -11,17 +11,16 @@ import logo from "../assets/sg-logo-main.png";
 const router = useRouter();
 const { $toast } = useNuxtApp();
 
-const username = ref<string>("");
-const password = ref("");
-const errorMessage = ref("");
-const loading = ref(false);
+const email = ref<string>("");
+const password = ref<string>("");
+const errorMessage = ref<string>("");
+const loading = ref<boolean>(false);
 
 const handleSubmit = async () => {
   errorMessage.value = "";
 
   try {
-    //TODO: Change the input from user to email and update the logic related to that in all the components and functions
-    const response = logIn(username.value, password.value);
+    const response = logIn(email.value, password.value);
     if (response?.status === "success") {
       router.push("/dashboard");
     }
@@ -67,17 +66,17 @@ const notifyFrontendOnly = (provider: string) => {
       <form class="flex flex-col gap-4" @submit.prevent="handleSubmit">
         <div class="flex flex-col">
           <label
-            for="username"
+            for="email"
             class="mb-2 font-medium text-[var(--color-text-primary)]"
           >
-            Username
+            Email
           </label>
           <input
-            id="username"
+            id="email"
             type="text"
-            placeholder="Enter your username"
+            placeholder="Enter your email"
             class="rounded-full px-4 py-3 border border-gray-300 transition bg-[var(--input-bg-color)] text-[var(--color-text-primary)] font-[var(--font-base)]"
-            v-model="username"
+            v-model="email"
             required
           />
         </div>
