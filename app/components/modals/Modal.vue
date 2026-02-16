@@ -70,10 +70,11 @@ const confirmAction = () => {
         />
 
         <input
+          disabled
           v-model="form.email"
           type="email"
           placeholder="Email"
-          class="w-full rounded-full px-4 py-3 border border-gray-300 transition bg-[var(--input-bg-color)] text-[var(--color-text-primary)] font-[var(--font-base)]"
+          class="cursor-not-allowed w-full rounded-full px-4 py-3 border border-gray-300 transition bg-[var(--input-bg-color)] text-[var(--color-text-primary)] font-[var(--font-base)]"
         />
 
         <input

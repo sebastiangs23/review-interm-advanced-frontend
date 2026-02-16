@@ -6,7 +6,7 @@ import { ref, Ref } from "vue";
 import { useRouter } from "vue-router";
 import { logIn } from "../utils/utils";
 
-import logo from "../assets/sg-logo.png";
+import logo from "../assets/sg-logo-main.png";
 
 const router = useRouter();
 const { $toast } = useNuxtApp();

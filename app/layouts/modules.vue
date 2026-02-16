@@ -1,13 +1,15 @@
 <script setup lang="ts">
-import { ref } from "vue";
+import { onMounted, ref } from "vue";
 import { useRouter } from "vue-router";
 import { storeToRefs } from "pinia";
 
+import { subModules } from "../utils/common";
 import { logOut } from "../utils/utils";
 import { useSettingsStore } from "../../stores/settings";
+import { User } from "../types/user"; 
 import ShowCode from "../components/ShowCode.vue";
-import { subModules } from "../utils/common";
-import logo from "../assets/sg-logo.png";
+
+import logo from "../assets/sg-logo-main.png";
 
 import { Bars3Icon, ChevronLeftIcon } from "@heroicons/vue/24/outline";
 
@@ -20,8 +22,30 @@ definePageMeta({
   layout: "modules",
 });
 
-const isSidebarOpen = ref(false);
-const isActive = ref(false);
+const currentUser = ref<User>({
+  username: "",
+  email: "",
+  password: "",
+  submodules: []
+});
+const subModulesFormatted = ref();
+const isSidebarOpen = ref<boolean>(false);
+const isActive = ref<boolean>(false);
+
+onMounted(() => {
+  currentUser.value = JSON.parse(localStorage.getItem("currentUser"));
+
+  const accessByName = new Map(
+    (currentUser.value?.submodules ?? []).map((s: any) => [s.submodule, s.access]) 
+  );
+
+  subModulesFormatted.value = subModules
+    .map((sub) => ({
+      ...sub,
+      access: accessByName.get(sub.name) ?? false,
+    }))
+    .filter((sub) => sub.access);
+})
 
 const logOutFn = () => {
   logOut();
@@ -53,13 +77,13 @@ const logOutFn = () => {
 
       <nav class="font-[var(--font-base)] flex flex-col gap-4 mt-6 pr-6">
         <NuxtLink
-          v-for="sub in subModules"
+          v-for="sub in subModulesFormatted"
           :key="sub.route"
           :to="sub.to"
           active-class="btn__base_2 btn__shadow border-2 border-[var(--color-dark)]"
           class="flex items-center gap-3 text-[var(--color-text-primary)] text-lg pl-4 py-4 "
           @click="isSidebarOpen = false"
-        >
+        > 
           <component :is="sub.icon" class="w-5 h-5 shrink-0" />
           <span>{{ sub.name }}</span>
         </NuxtLink>

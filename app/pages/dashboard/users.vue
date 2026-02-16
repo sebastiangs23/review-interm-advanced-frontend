@@ -53,7 +53,8 @@ const openModal = (user, action) => {
     form.value = {
       username: user.username,
       email: user.email,
-      password: "",
+      password: user.password,
+      submodules: user?.submodules
     };
 
     modalInputs.value = {
