@@ -1,5 +1,99 @@
+
+<script setup lang="ts">
+import { computed, ref } from "vue";
+
+import * as echarts from "echarts/core";
+import { CanvasRenderer } from "echarts/renderers";
+import { LineChart, BarChart, PieChart } from "echarts/charts";
+import { TooltipComponent, GridComponent, LegendComponent } from "echarts/components";
+
+definePageMeta({
+  layout: "modules",
+});
+
+echarts.use([
+  CanvasRenderer,
+  LineChart,
+  BarChart,
+  PieChart,
+  TooltipComponent,
+  GridComponent,
+  LegendComponent,
+]);
+
+type ChartType = "line" | "bar" | "pie";
+
+const types: Array<{ key: ChartType; label: string }> = [
+  { key: "bar", label: "Bar" },
+  { key: "line", label: "Line" },
+  { key: "pie", label: "Donut" },
+];
+
+const chartType = ref<ChartType>("bar");
+
+// Static dataset (same for all)
+const categories = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"];
+const values = [120, 200, 150, 80, 70, 110, 160];
+
+const pieData = computed(() =>
+  categories.map((name, i) => ({ name, value: values[i] }))
+);
+
+const option = computed(() => {
+  if (chartType.value === "line") {
+    return {
+      tooltip: { trigger: "axis" as const },
+      grid: { left: 32, right: 16, top: 16, bottom: 28, containLabel: true },
+      xAxis: { type: "category" as const, data: categories },
+      yAxis: { type: "value" as const },
+      series: [
+        {
+          type: "line" as const,
+          data: values,
+          smooth: true,
+          areaStyle: {},
+          itemStyle: { color: "#abf600" }
+        },
+      ],
+    };
+  }
+
+  if (chartType.value === "bar") {
+    return {
+      tooltip: { trigger: "axis" as const },
+      grid: { left: 32, right: 16, top: 16, bottom: 28, containLabel: true },
+      xAxis: { type: "category" as const, data: categories },
+      yAxis: { type: "value" as const },
+      series: [
+        {
+          type: "bar" as const,
+          data: values,
+          barMaxWidth: 36,
+          itemStyle: { color: "#abf600" }
+        },
+      ],
+    };
+  }
+
+  // Donut chart
+  return {
+    tooltip: { trigger: "item" as const },
+    legend: { top: 0, left: "center" as const },
+    series: [
+      {
+        type: "pie" as const,
+        radius: ["45%", "70%"],
+        avoidLabelOverlap: true,
+        label: { show: true, formatter: "{b}: {d}%" },
+        data: pieData.value,
+      },
+    ],
+  };
+});
+</script>
+
 <template>
-  <div class="rounded-2xl border border-zinc-200 bg-white p-4 shadow-sm">
+  <div class="rounded-2xl border border-zinc-200 bg-[var(--bg-color-primary)] p-4 shadow-sm">
     <div class="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
       <div>
         <h3 class="text-sm font-semibold text-zinc-900">Ventas (static data)</h3>
@@ -36,97 +130,6 @@
   </div>
 </template>
 
-<script setup lang="ts">
-import { computed, ref } from "vue";
-
-// ECharts core (tree-shaking)
-import * as echarts from "echarts/core";
-import { CanvasRenderer } from "echarts/renderers";
-import { LineChart, BarChart, PieChart } from "echarts/charts";
-import { TooltipComponent, GridComponent, LegendComponent } from "echarts/components";
-
-definePageMeta({
-  layout: "modules",
-});
-
-echarts.use([
-  CanvasRenderer,
-  LineChart,
-  BarChart,
-  PieChart,
-  TooltipComponent,
-  GridComponent,
-  LegendComponent,
-]);
-
-type ChartType = "line" | "bar" | "pie";
-
-const types: Array<{ key: ChartType; label: string }> = [
-  { key: "line", label: "Line" },
-  { key: "bar", label: "Bar" },
-  { key: "pie", label: "Donut" },
-];
-
-const chartType = ref<ChartType>("line");
-
-// Static dataset (same for all)
-const categories = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"];
-const values = [120, 200, 150, 80, 70, 110, 160];
-
-const pieData = computed(() =>
-  categories.map((name, i) => ({ name, value: values[i] }))
-);
-
-const option = computed(() => {
-  if (chartType.value === "line") {
-    return {
-      tooltip: { trigger: "axis" as const },
-      grid: { left: 32, right: 16, top: 16, bottom: 28, containLabel: true },
-      xAxis: { type: "category" as const, data: categories },
-      yAxis: { type: "value" as const },
-      series: [
-        {
-          type: "line" as const,
-          data: values,
-          smooth: true,
-          areaStyle: {},
-        },
-      ],
-    };
-  }
-
-  if (chartType.value === "bar") {
-    return {
-      tooltip: { trigger: "axis" as const },
-      grid: { left: 32, right: 16, top: 16, bottom: 28, containLabel: true },
-      xAxis: { type: "category" as const, data: categories },
-      yAxis: { type: "value" as const },
-      series: [
-        {
-          type: "bar" as const,
-          data: values,
-          barMaxWidth: 36,
-        },
-      ],
-    };
-  }
-
-  // Donut chart
-  return {
-    tooltip: { trigger: "item" as const },
-    legend: { top: 0, left: "center" as const },
-    series: [
-      {
-        type: "pie" as const,
-        radius: ["45%", "70%"],
-        avoidLabelOverlap: true,
-        label: { show: true, formatter: "{b}: {d}%" },
-        data: pieData.value,
-      },
-    ],
-  };
-});
-</script>
 
 <style scoped>
 /* This guarantees the chart always has height even if Tailwind arbitrary values don't apply */
