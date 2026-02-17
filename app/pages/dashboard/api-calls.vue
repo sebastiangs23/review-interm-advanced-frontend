@@ -1,5 +1,5 @@
 <script setup>
-import Title from "../../components/Title.vue"
+import Title from "../../components/Title.vue";
 import Loader from "~/components/Loader.vue";
 import Badge from "~/components/Badge.vue";
 import { ShoppingCartIcon, StarIcon } from "@heroicons/vue/24/solid";
@@ -36,9 +36,14 @@ onMounted(() => {
 </script>
 
 <template>
-  <Loader v-if="loading" />
+  <Loader
+    :active="loading"
+    text="Loading"
+    subtext="Please wait a second"
+    :fullscreen="false"
+  />
 
-  <Title text="Store" :size=1 />
+  <Title text="Store" :size="1" />
 
   <section class="p-4" v-if="!loading && !error">
     <div class="grid grid-cols-[repeat(auto-fill,minmax(220px,1fr))] gap-6">
@@ -96,7 +101,7 @@ onMounted(() => {
           />
         </span>
 
-        <div class="flex justify-center align-center mb-2">
+        <div class="flex justify-center items-center mb-2">
           <button
             class="btn__base_3 border-2 border-[var(--color-dark)] cursor-pointer"
           >
@@ -108,7 +113,5 @@ onMounted(() => {
     </div>
   </section>
 
-  <p v-if="error">
-    Failed to load products. Please try again.
-  </p>
+  <p v-if="error">Failed to load products. Please try again.</p>
 </template>

@@ -22,16 +22,14 @@ function onInput(e: Event) {
 </script>
 
 <template>
-  <div class="flex items-center gap-[1rem] p-[0.5rem 0]">
+  <div class="flex items-center gap-[1rem] p-[0.5rem 0] text-white">
     <label>{{ props.label }}</label>
     <input 
       type="color"
       @input="onInput"
-      class="settings__color-input" 
     />
 
     <div
-      class="settings__color-preview"
       :style="{ backgroundColor: props.color }"
     ></div>
 

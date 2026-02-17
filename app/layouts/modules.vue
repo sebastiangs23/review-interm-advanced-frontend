@@ -3,10 +3,10 @@ import { onMounted, ref } from "vue";
 import { useRouter } from "vue-router";
 import { storeToRefs } from "pinia";
 
+import type { User } from "../types/user"; 
 import { subModules } from "../utils/common";
 import { logOut } from "../utils/utils";
 import { useSettingsStore } from "../../stores/settings";
-import type { User } from "../types/user"; 
 import ShowCode from "../components/ShowCode.vue";
 
 import logo from "../assets/sg-logo-main.png";
@@ -94,7 +94,7 @@ const logOutFn = () => {
       class="flex flex-col flex-1 p-6 bg-(--bg-color-third)"
     >
       <header
-        class="flex items-center justify-between gap-4 px-3 md:px-4 py-3 rounded-[14px] bg-[var(--input-bg-color)] btn__shadow pb-6 border-2 border-[var(--color-dark)]"
+        class="flex items-center justify-between gap-4 p-3 md:px-4 md:pb-6 mb-4 md:mb-0 rounded-[14px] bg-[var(--input-bg-color)] btn__shadow border-2 border-[var(--color-dark)]"
       >
         <!-- Mobile toggle -->
         <button class="md:hidden p-2" @click="isSidebarOpen = !isSidebarOpen">
@@ -103,7 +103,7 @@ const logOutFn = () => {
 
         <ShowCode />
         
-        <button @click="logOutFn()" class="bg-[var(--color-base)] p-4 btn text-xs sm:text-base ">
+        <button @click="logOutFn()" class="bg-[var(--color-base)] p-2 md:p-4 btn rounded-lg text-xs sm:text-base ">
           LOGOUT
         </button>
       </header>

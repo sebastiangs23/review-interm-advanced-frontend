@@ -30,8 +30,6 @@ const types: Array<{ key: ChartType; label: string }> = [
 ];
 
 const chartType = ref<ChartType>("bar");
-
-// Static dataset (same for all)
 const categories = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"];
 const values = [120, 200, 150, 80, 70, 110, 160];
 
@@ -96,8 +94,8 @@ const option = computed(() => {
   <div class="rounded-2xl border border-zinc-200 bg-[var(--bg-color-primary)] p-4 shadow-sm">
     <div class="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
       <div>
-        <h3 class="text-sm font-semibold text-zinc-900">Ventas (static data)</h3>
-        <p class="text-xs text-zinc-500">Alterna entre 3 visualizaciones con el mismo dataset</p>
+        <h3 class="text-xl font-semibold text-white py-2">Just static data</h3>
+        <p class="text-xs text-zinc-500">Lorem ipsum dolor sit amet consectetur adipisicing elit. Fuga rerum repellat error mollitia, consectetur ex saepe pariatur ipsam magni minus commodi temporibus dolore sapiente tenetur, cumque ipsum, doloremque iure quidem!</p>
       </div>
 
       <!-- Segmented toggle -->
@@ -123,7 +121,7 @@ const option = computed(() => {
       <ClientOnly>
         <VChart class="chart" :option="option" autoresize />
         <template #fallback>
-          <div class="chart w-full animate-pulse rounded-xl bg-zinc-100" />
+          <div class="chart w-full animate-pulse" />
         </template>
       </ClientOnly>
     </div>
@@ -132,7 +130,6 @@ const option = computed(() => {
 
 
 <style scoped>
-/* This guarantees the chart always has height even if Tailwind arbitrary values don't apply */
 .chart {
   height: 320px;
   width: 100%;
