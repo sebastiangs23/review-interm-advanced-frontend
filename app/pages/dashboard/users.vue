@@ -28,11 +28,13 @@ const modalInputs = ref({
 const showModal = ref(false);
 const showModalPermissions = ref(false);
 const selectedUser = ref(null);
+const typeModal = ref(1);
 const showDeleteModal = ref(false);
 const userToDelete = ref(null);
 
 const openCreateModal = () => {
   selectedUser.value = null;
+  typeModal.value = 1;
 
   form.value = { username: "", email: "", password: "" };
 
@@ -49,11 +51,13 @@ const openCreateModal = () => {
 const openModal = (user, action) => {
   if (action === "edit") {
     selectedUser.value = user;
+    typeModal.value = 2;
 
     form.value = {
       username: user.username,
       email: user.email,
-      password: "",
+      password: user.password,
+      submodules: user?.submodules
     };
 
     modalInputs.value = {
@@ -65,7 +69,6 @@ const openModal = (user, action) => {
     showModal.value = true;
   } else if (action === "permissions") {
     selectedUser.value = user;
-
     showModalPermissions.value = !showModalPermissions.value;
   }
 };
@@ -151,6 +154,7 @@ onMounted(() => {
       :content="modalInputs.description"
       :button-text="modalInputs.buttonText"
       :form="form"
+      :typeModal="typeModal"
       @close="closeModal"
       @confirm="saveUser"
     />

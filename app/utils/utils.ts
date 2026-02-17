@@ -1,17 +1,17 @@
 import type { User, submodulesPermission } from "../types/user.d.ts";
 import { subModules } from "../utils/common.js";
 
-export const logIn = (username: any, password: any) => {
+export const logIn = (email: any, password: any) => {
   try {
     const storedUsers = localStorage.getItem("users");
     const users: User[] = storedUsers ? JSON.parse(storedUsers) : [];
 
     const user = users.find(
-      (user) => user.username === username && user.password === password,
+      (user) => user.email === email && user.password === password,
     );
 
     if (!user) {
-      alert("Invalid username or password");
+      alert("Invalid email or password");
       return;
     } else {
       localStorage.setItem("currentUser", JSON.stringify(user));

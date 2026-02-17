@@ -1,3 +1,4 @@
+import DashboardSource from "../pages/dashboard/index.vue?raw";
 import UserSource from "../pages/dashboard/users.vue?raw";
 import ApiCallsSource from "../pages/dashboard/api-calls.vue?raw";
 import StoreManagmentSource from "../pages/dashboard/store-management.vue?raw";
@@ -14,6 +15,7 @@ export const usersTable: string[] = [
 ];
 
 import {
+  ChartBarSquareIcon,
   UsersIcon,
   CloudIcon,
   Squares2X2Icon,
@@ -22,6 +24,13 @@ import {
 } from "@heroicons/vue/24/outline";
 
 export const subModules = [
+  {
+    name: "Dashboard",
+    route: "",
+    to: "/dashboard/",
+    icon: ChartBarSquareIcon,
+    source: DashboardSource
+  },
   {
     name: "Users",
     route: "users",

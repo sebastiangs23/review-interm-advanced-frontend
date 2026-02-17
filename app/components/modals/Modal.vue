@@ -9,6 +9,7 @@ defineProps<{
   title: string;
   content: string;
   buttonText: string;
+  typeModal: number; // 1: create & 2: edit
   form: {
     username: string;
     email: string;
@@ -68,12 +69,12 @@ const confirmAction = () => {
           placeholder="Username"
           class="w-full rounded-full px-4 py-3 border border-gray-300 transition bg-[var(--input-bg-color)] text-[var(--color-text-primary)] font-[var(--font-base)]"
         />
-
         <input
+          :disabled="typeModal === 2"
           v-model="form.email"
           type="email"
           placeholder="Email"
-          class="w-full rounded-full px-4 py-3 border border-gray-300 transition bg-[var(--input-bg-color)] text-[var(--color-text-primary)] font-[var(--font-base)]"
+          class="cursor-not-allowed w-full rounded-full px-4 py-3 border border-gray-300 transition bg-[var(--input-bg-color)] text-[var(--color-text-primary)] font-[var(--font-base)]"
         />
 
         <input

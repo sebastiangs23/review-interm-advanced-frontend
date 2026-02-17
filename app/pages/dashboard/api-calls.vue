@@ -1,4 +1,5 @@
 <script setup>
+import Title from "../../components/Title.vue"
 import Loader from "~/components/Loader.vue";
 import Badge from "~/components/Badge.vue";
 import { ShoppingCartIcon, StarIcon } from "@heroicons/vue/24/solid";
@@ -37,9 +38,9 @@ onMounted(() => {
 <template>
   <Loader v-if="loading" />
 
-  <h2 class="text-[2rem] weight-[700] mb-6 text-white">Store</h2>
+  <Title text="Store" :size=1 />
 
-  <section class="p-[1rem]" v-if="!loading && !error">
+  <section class="p-4" v-if="!loading && !error">
     <div class="grid grid-cols-[repeat(auto-fill,minmax(220px,1fr))] gap-6">
       <article
         v-for="item in items"

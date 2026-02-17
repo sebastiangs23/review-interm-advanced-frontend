@@ -5,7 +5,7 @@ import { useNuxtApp } from '#app'
 
 import { useUsers } from "../composables/user";
 
-import logo from "../assets/sg-logo.png";
+import logo from "../assets/sg-logo-main.png";
 
 const router = useRouter()
 const { $toast } = useNuxtApp();
