@@ -8,48 +8,77 @@ import {
 } from "@heroicons/vue/24/outline";
 
 import bitcoin from "../../assets/bitcoin.png";
+import etherium from "../../assets/eth.png";
 
 definePageMeta({
   layout: "modules",
 });
 
-const price = ref(null);
-const status = ref("connecting");
+const priceBtc = ref(null);
+const priceEth = ref(null);
+const statusBtc = ref("connecting");
+const statusEth = ref("connecting");
 let socket = null;
 
-function connect() {
-  status.value = "connecting";
+function connectBtc() {
+  statusBtc.value = "connecting";
 
   socket = new WebSocket("wss://stream.binance.com:9443/ws/btcusdt@trade");
 
   socket.onopen = () => {
-    status.value = "connected";
+    statusBtc.value = "connected";
   };
 
   socket.onmessage = (event) => {
     const data = JSON.parse(event.data);
-    price.value = parseFloat(data.p).toFixed(2);
+    priceBtc.value = parseFloat(data.p).toFixed(2);
   };
 
   socket.onerror = () => {
-    status.value = "error";
+    statusBtc.value = "error";
   };
 
   socket.onclose = () => {
-    status.value = "disconnected";
+    statusBtc.value = "disconnected";
   };
 }
 
-onMounted(connect);
+function connectEth(){
+  statusEth.value = "connecting";
+
+  socket = new WebSocket("wss://stream.binance.com:9443/ws/ethusdt@trade");
+
+  socket.onopen = () => {
+    statusEth.value = "connected";
+  };
+
+  socket.onmessage = (event) => {
+    const data = JSON.parse(event.data);
+    priceEth.value = parseFloat(data.p).toFixed(2);
+  };
+
+  socket.onerror = () => {
+    statusEth.value = "error";
+  };
+
+  socket.onclose = () => {
+    statusEth.value = "disconnected";
+  }
+}
+
+onMounted(() => {
+  connectEth();
+  connectBtc(); 
+});
 
 onUnmounted(() => {
   socket?.close();
 });
 
 const statusColor = computed(() => {
-  if (status.value === "connected") return "text-green-400";
-  if (status.value === "error") return "text-red-400";
-  if (status.value === "connecting") return "text-yellow-400";
+  if (statusBtc.value === "connected") return "text-green-400";
+  if (statusBtc.value === "error") return "text-red-400";
+  if (statusBtc.value === "connecting") return "text-yellow-400";
   return "text-gray-400";
 });
 </script>
@@ -63,14 +92,11 @@ const statusColor = computed(() => {
       class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4"
     >
       <div class="flex items-center gap-3">
-        <!-- Blinking Live Dot -->
         <span class="relative flex h-3 w-3">
-          <!-- Ping animation -->
           <span
             class="animate-ping absolute inline-flex h-full w-full rounded-full opacity-75 bg-[var(--color-base)]"
           ></span>
 
-          <!-- Solid dot -->
           <span
             class="relative inline-flex rounded-full h-3 w-3 bg-[var(--color-base)]"
           ></span>
@@ -85,9 +111,9 @@ const statusColor = computed(() => {
       >
         <component
           :is="
-            status === 'connected'
+            statusBtc === 'connected'
               ? SignalIcon
-              : status === 'connecting'
+              : statusBtc === 'connecting'
                 ? ArrowPathIcon
                 : ExclamationTriangleIcon
           "
@@ -95,16 +121,14 @@ const statusColor = computed(() => {
           :class="statusColor"
         />
         <span class="capitalize" :class="statusColor">
-          {{ status }}
+          {{ statusBtc }}
         </span>
       </div>
     </div>
 
-    <!-- CONTENT CARD -->
     <div
       class="flex flex-col sm:flex-row items-center gap-6 bg-[var(--bg-color-third)] border border-black/30 rounded-xl p-5"
     >
-      <!-- BTC IMAGE -->
       <div class="flex-shrink-0">
         <img
           :src="bitcoin"
@@ -113,7 +137,6 @@ const statusColor = computed(() => {
         />
       </div>
 
-      <!-- PRICE INFO -->
       <div class="flex-1 text-center sm:text-left space-y-2">
         <p class="text-gray-400 text-sm">Trading Pair</p>
         <p class="text-white font-semibold">BTC / USDT</p>
@@ -123,7 +146,32 @@ const statusColor = computed(() => {
         <p
           class="text-2xl sm:text-3xl font-mono font-bold text-[var(--color-base)]"
         >
-          {{ price ? `$${price}` : "Loading..." }}
+          {{ priceBtc ? `$${priceBtc}` : "Loading..." }}
+        </p>
+      </div>
+    </div>
+
+    <div
+      class="flex flex-col sm:flex-row items-center gap-6 bg-[var(--bg-color-third)] border border-black/30 rounded-xl p-5"
+    >
+      <div class="flex-shrink-0">
+        <img
+          :src="etherium"
+          alt="Bitcoin"
+          class="w-16 h-16 sm:w-20 sm:h-20 object-contain"
+        />
+      </div>
+
+      <div class="flex-1 text-center sm:text-left space-y-2">
+        <p class="text-gray-400 text-sm">Trading Pair</p>
+        <p class="text-white font-semibold">ETH / USDT</p>
+
+        <p class="text-gray-400 text-sm mt-4">Live Price</p>
+
+        <p
+          class="text-2xl sm:text-3xl font-mono font-bold text-[var(--color-base)]"
+        >
+          {{ priceEth ? `$${priceEth}` : "Loading..." }}
         </p>
       </div>
     </div>
