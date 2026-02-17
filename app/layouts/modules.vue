@@ -6,7 +6,7 @@ import { storeToRefs } from "pinia";
 import { subModules } from "../utils/common";
 import { logOut } from "../utils/utils";
 import { useSettingsStore } from "../../stores/settings";
-import { User } from "../types/user"; 
+import type { User } from "../types/user"; 
 import ShowCode from "../components/ShowCode.vue";
 
 import logo from "../assets/sg-logo-main.png";
