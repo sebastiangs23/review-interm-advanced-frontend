@@ -1,170 +1,141 @@
-<script setup>
+<script setup lang="ts">
 definePageMeta({ layout: "modules" });
 
 import { ref } from "vue";
 import ColorPalette from "../../components/ColorPalette.vue";
 
-const label = ref("Background");
-const color = ref("#ffffff");
-const showHex = ref(true);
+const label = ref<string>("Background");
+const color = ref<string>("#ffffff");
+const showHex = ref<boolean>(true);
 </script>
 
 <template>
-  <section class="my-components">
-    <div class="card">
-      
-      <div class="card__controls">
-        <h2 class="title">Color Palette Component</h2>
-
-        <div class="field">
-          <label>Label</label>
-          <input type="text" v-model="label" />
+  <section class="min-h-[calc(100vh-2rem)] bg-[var(--bg-color-secondary)] p-6">
+    <div class="mx-auto w-full max-w-4xl">
+      <!-- Card -->
+      <div
+        class="rounded-2xl bg-[var(--bg-color-primary)] p-6 shadow-sm ring-1 ring-black/5 md:p-8"
+      >
+        <div class="mb-6">
+          <h2
+            class="text-xl font-semibold text-[var(--color-base)] md:text-2xl"
+          >
+            Color Palette Component
+          </h2>
+          <p class="mt-1 text-sm text-white/60">
+            Customize the props and preview the component in real time.
+          </p>
         </div>
 
-        <div class="field switch-field">
-          <label>Show Hex</label>
-          <label class="switch">
-            <input type="checkbox" v-model="showHex" />
-            <span class="slider"></span>
-          </label>
-        </div>
+        <!-- Layout -->
+        <div class="grid gap-6 md:grid-cols-[340px_1px_1fr] md:gap-8">
+          <!-- Left: Controls -->
+          <div class="space-y-5">
+            <!-- Label -->
+            <div class="space-y-2">
+              <label class="text-sm font-medium text-white/80">Label</label>
+              <input
+                type="text"
+                v-model="label"
+                class="h-10 w-full rounded-xl border border-white/10 bg-white/90 px-3 text-sm text-black placeholder-black/40 shadow-sm outline-none transition focus:border-blue-600 focus:ring-2 focus:ring-blue-600/20"
+                placeholder="e.g. Background"
+              />
+            </div>
 
-        <div class="field">
-          <label>Color</label>
-          <input type="color" v-model="color" />
+            <!-- Toggle: Show Hex -->
+            <div
+              class="flex items-center justify-between gap-4 rounded-xl border border-white/10 bg-white/5 p-3"
+            >
+              <div>
+                <p class="text-sm font-medium text-white/80">Show Hex</p>
+                <p class="text-xs text-white/50">
+                  Display hex code under the label.
+                </p>
+              </div>
+
+              <button
+                type="button"
+                class="relative inline-flex h-6 w-11 items-center rounded-full transition"
+                :class="showHex ? 'bg-[var(--color-base)]' : 'bg-white/20'"
+                @click="showHex = !showHex"
+                :aria-pressed="showHex"
+              >
+                <span
+                  class="inline-block h-5 w-5 rounded-full bg-white shadow-sm transition"
+                  :class="showHex ? 'translate-x-5' : 'translate-x-1'"
+                />
+              </button>
+            </div>
+
+            <!-- Color -->
+            <div class="space-y-2">
+              <label class="text-sm font-medium text-white/80">Color</label>
+
+              <div class="flex items-center gap-3">
+                <!-- Native color input (styled wrapper) -->
+                <label
+                  class="flex h-10 w-12 cursor-pointer items-center justify-center overflow-hidden rounded-xl border border-white/10 bg-white/90 shadow-sm"
+                  title="Pick a color"
+                >
+                  <input
+                    type="color"
+                    v-model="color"
+                    class="h-12 w-14 cursor-pointer border-0 bg-transparent p-0"
+                    style="appearance: none"
+                  />
+                </label>
+
+                <!-- Hex input (optional but improves UX a lot) -->
+                <input
+                  type="text"
+                  v-model="color"
+                  class="h-10 w-full rounded-xl border border-white/10 bg-white/90 px-3 text-sm text-black shadow-sm outline-none transition focus:border-blue-600 focus:ring-2 focus:ring-blue-600/20"
+                  placeholder="#ffffff"
+                />
+              </div>
+
+              <p class="text-xs text-white/50">
+                Tip: you can paste a hex code directly.
+              </p>
+            </div>
+          </div>
+
+          <!-- Divider -->
+          <div class="hidden bg-white/10 md:block"></div>
+
+          <!-- Right: Preview -->
+          <div class="flex items-center justify-center">
+            <div
+              class="w-full rounded-2xl border border-white/10 bg-white/5 p-6"
+            >
+              <div class="mb-3 flex items-center justify-between">
+                <p class="text-sm font-medium text-white/70">Preview</p>
+
+                <div class="flex items-center justify-center gap-2">
+                  <span class="relative flex h-2 w-2">
+                    <span
+                      class="absolute inline-flex h-full w-full animate-ping rounded-full bg-[var(--color-base)] opacity-75"
+                    ></span>
+                    <span
+                      class="relative inline-flex h-2 w-2 rounded-full bg-[var(--color-base)]"
+                    ></span>
+                  </span>
+
+                  <span class="text-xs text-white/40 leading-none">Live</span>
+                </div>
+              </div>
+
+              <div class="grid place-items-center rounded-xl bg-black/10 p-6">
+                <ColorPalette
+                  :label="label"
+                  :color="color"
+                  :showHex="showHex"
+                />
+              </div>
+            </div>
+          </div>
         </div>
       </div>
-
-      <div class="card__divider"></div>
-
-      <div class="card__preview">
-        <ColorPalette
-          :label="label"
-          :color="color"
-          :showHex="showHex"
-        />
-      </div>
-
     </div>
   </section>
 </template>
-
-<style scoped>
-.my-components {
-  background: #f4f6f8;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: 24px;
-}
-
-.card {
-  display: flex;
-  width: 100%;
-  max-width: 760px;
-  background: #ffffff;
-  border-radius: 16px;
-  padding: 32px;
-  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.08);
-  gap: 32px;
-}
-
-.card__controls {
-  flex: 1;
-  max-width: 320px;
-}
-
-.card__divider {
-  width: 1px;
-  background-color: #e5e7eb;
-}
-
-.card__preview {
-  flex: 1;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.title {
-  font-size: 22px;
-  font-weight: 600;
-  margin-bottom: 24px;
-  color: #1f2937;
-}
-
-.field {
-  display: flex;
-  flex-direction: column;
-  gap: 6px;
-  margin-bottom: 20px;
-}
-
-.field label {
-  font-size: 14px;
-  font-weight: 500;
-  color: #4b5563;
-}
-
-.field input[type="text"],
-.field input[type="color"] {
-  height: 40px;
-  border-radius: 8px;
-  border: 1px solid #d1d5db;
-  padding: 0 12px;
-  font-size: 14px;
-  background: #fff;
-}
-
-.field input[type="text"]:focus {
-  outline: none;
-  border-color: #2563eb;
-}
-
-.switch-field {
-  flex-direction: row;
-  align-items: center;
-  justify-content: space-between;
-}
-
-.switch {
-  position: relative;
-  width: 44px;
-  height: 24px;
-}
-
-.switch input {
-  opacity: 0;
-  width: 0;
-  height: 0;
-}
-
-.slider {
-  position: absolute;
-  inset: 0;
-  cursor: pointer;
-  background-color: #d1d5db;
-  border-radius: 999px;
-  transition: background-color 0.25s;
-}
-
-.slider::before {
-  content: "";
-  position: absolute;
-  height: 18px;
-  width: 18px;
-  left: 3px;
-  top: 3px;
-  background-color: #ffffff;
-  border-radius: 50%;
-  transition: transform 0.25s;
-}
-
-.switch input:checked + .slider {
-  background-color: #2563eb;
-}
-
-.switch input:checked + .slider::before {
-  transform: translateX(20px);
-}
-</style>
