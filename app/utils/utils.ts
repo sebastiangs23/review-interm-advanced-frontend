@@ -11,13 +11,15 @@ export const logIn = (email: any, password: any) => {
     );
 
     if (!user) {
-      alert("Invalid email or password");
-      return;
+      return {
+        status: "error",
+        message: "User doesn´t exist in the localStorage."
+      }
     } else {
       localStorage.setItem("currentUser", JSON.stringify(user));
       return {
         status: "success",
-        message: "Welcome!",
+        message: `Welcome back ${user?.username?? 'user'} !  `,
       };
     }
   } catch (error: any) {

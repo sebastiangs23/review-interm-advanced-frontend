@@ -23,6 +23,9 @@ const handleSubmit = async () => {
     const response = logIn(email.value, password.value);
     if (response?.status === "success") {
       router.push("/dashboard");
+      $toast.success(response?.message)
+    }else if(response?.status === "error") {
+      $toast.warning(response?.message)
     }
   } catch (err) {
     errorMessage.value = err.message || "Unexpected error occurred";
