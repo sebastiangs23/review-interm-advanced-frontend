@@ -4,6 +4,7 @@ definePageMeta({ layout: "modules" });
 import { ref, watch } from "vue";
 import { storeToRefs } from "pinia";
 import { useSettingsStore } from "../../../stores/settings";
+import Title from "../../components/Title.vue"
 import ModalCode from "../../components/modals/ModalCode.vue";
 import ColorPalette from "../../components/ColorPalette.vue";
 import ColorPaletteSource from "../../components/ColorPalette.vue?raw";
@@ -43,8 +44,7 @@ const updateColor = ({ label, color }) => {
 
 <template>
   <section class="settings">
-    <h2 class="settings__title">Settings</h2>
-
+    <Title text="Store Managment Pinia" :size="1" />
     <section>
       <div v-for="(item, index) in config" :key="index">
         <ColorPalette

@@ -23,7 +23,7 @@ const emit = defineEmits(["selectUser", "delete"]);
   <div class="overflow-x-auto rounded-xl border border-black/30">
     <table class="w-full border-collapse text-sm">
       <!-- HEADER -->
-      <thead class="bg-[var(--bg-color-third)] text-gray-300">
+      <thead class="bg-[var(--bg-color-third)] text-white">
         <tr>
           <th
             v-for="(header, index) in headers"
@@ -48,7 +48,7 @@ const emit = defineEmits(["selectUser", "delete"]);
           </td>
 
           <!-- EMAIL -->
-          <td class="px-4 py-3 text-gray-300">
+          <td class="px-4 py-3 text-white">
             {{ user.email }}
           </td>
 

@@ -2,6 +2,7 @@
 definePageMeta({ layout: "modules" });
 
 import { ref } from "vue";
+import Title from "../../components/Title.vue"
 import ColorPalette from "../../components/ColorPalette.vue";
 
 const label = ref<string>("Background");
@@ -11,7 +12,8 @@ const showHex = ref<boolean>(true);
 
 <template>
   <section class="min-h-[calc(100vh-2rem)] bg-[var(--bg-color-secondary)] p-6">
-    <div class="mx-auto w-full max-w-4xl">
+    <Title text="Component Catalog" :size=1 />
+    <div class="mx-auto w-full max-w-4xl mt-2">
       <!-- Card -->
       <div
         class="rounded-2xl bg-[var(--bg-color-primary)] p-6 shadow-sm ring-1 ring-black/5 md:p-8"

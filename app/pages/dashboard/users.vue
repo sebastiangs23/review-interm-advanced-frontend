@@ -4,6 +4,7 @@ import { ref, onMounted } from "vue";
 import { useUsers } from "../../composables/user";
 import { useCurrentUser } from "../../composables/currentUser";
 
+import Title from "../../components/Title.vue"
 import Table from "../../components/Table.vue";
 import Modal from "../../components/modals/Modal.vue";
 import ModalConfirmation from "../../components/modals/ModalConfirmation.vue";
@@ -126,11 +127,7 @@ onMounted(() => {
     <header
       class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-6"
     >
-      <h1
-        class="text-xl sm:text-2xl lg:text-3xl font-bold tracking-tight text-[var(--color-text-primary)]"
-      >
-        Users Management
-      </h1>
+      <Title text="Users Management" :size="1" />
 
       <button
         class="flex items-center justify-center gap-2 w-full sm:w-auto bg-[var(--bg-color-third)] text-[var(--color-text-primary)] px-4 sm:px-5 py-2.5 sm:py-3 rounded-xl hover:bg-[var(--bg-color-secondary)] btn__shadow transition"

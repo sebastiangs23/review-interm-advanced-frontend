@@ -1,11 +1,15 @@
-
 <script setup lang="ts">
 import { computed, ref } from "vue";
 
+import Title from "../../components/Title.vue";
 import * as echarts from "echarts/core";
 import { CanvasRenderer } from "echarts/renderers";
 import { LineChart, BarChart, PieChart } from "echarts/charts";
-import { TooltipComponent, GridComponent, LegendComponent } from "echarts/components";
+import {
+  TooltipComponent,
+  GridComponent,
+  LegendComponent,
+} from "echarts/components";
 
 definePageMeta({
   layout: "modules",
@@ -34,7 +38,7 @@ const categories = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"];
 const values = [120, 200, 150, 80, 70, 110, 160];
 
 const pieData = computed(() =>
-  categories.map((name, i) => ({ name, value: values[i] }))
+  categories.map((name, i) => ({ name, value: values[i] })),
 );
 
 const option = computed(() => {
@@ -50,7 +54,7 @@ const option = computed(() => {
           data: values,
           smooth: true,
           areaStyle: {},
-          itemStyle: { color: "#abf600" }
+          itemStyle: { color: "#abf600" },
         },
       ],
     };
@@ -67,7 +71,7 @@ const option = computed(() => {
           type: "bar" as const,
           data: values,
           barMaxWidth: 36,
-          itemStyle: { color: "#abf600" }
+          itemStyle: { color: "#abf600" },
         },
       ],
     };
@@ -91,11 +95,21 @@ const option = computed(() => {
 </script>
 
 <template>
-  <div class="rounded-2xl border border-zinc-200 bg-[var(--bg-color-primary)] p-4 shadow-sm">
-    <div class="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+  <Title text="Dashboard" :size="1" />
+  <div
+    class="rounded-2xl border border-zinc-200 bg-[var(--bg-color-primary)] p-4 shadow-sm md:mt-2 mt-1"
+  >
+    <div
+      class="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between"
+    >
       <div>
         <h3 class="text-xl font-semibold text-white py-2">Just static data</h3>
-        <p class="text-xs text-zinc-500">Lorem ipsum dolor sit amet consectetur adipisicing elit. Fuga rerum repellat error mollitia, consectetur ex saepe pariatur ipsam magni minus commodi temporibus dolore sapiente tenetur, cumque ipsum, doloremque iure quidem!</p>
+        <p class="text-xs text-zinc-500">
+          Lorem ipsum dolor sit amet consectetur adipisicing elit. Fuga rerum
+          repellat error mollitia, consectetur ex saepe pariatur ipsam magni
+          minus commodi temporibus dolore sapiente tenetur, cumque ipsum,
+          doloremque iure quidem!
+        </p>
       </div>
 
       <!-- Segmented toggle -->
@@ -127,7 +141,6 @@ const option = computed(() => {
     </div>
   </div>
 </template>
-
 
 <style scoped>
 .chart {

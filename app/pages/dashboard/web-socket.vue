@@ -76,13 +76,7 @@ const statusColor = computed(() => {
           ></span>
         </span>
 
-        <!-- MAKE THE WIDTH DYNAMIC IN TITLE AND USE IT BELOW -->
-        <h1
-          class="text-xl sm:text-2xl font-bold text-white flex items-center gap-2"
-        >
-          WebSocket - Binance Live Price
-        </h1>
-        <!-- <Title text="WebSocket - Binance Live Price" :size=1 /> -->
+        <Title text="WebSocket - Binance Live Price" :size=1 />
       </div>
 
       <!-- STATUS -->
