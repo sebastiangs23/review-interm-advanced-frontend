@@ -5,6 +5,8 @@ defineProps<{
   show: boolean;
   title: string;
   description: string;
+  leftButton: string;
+  rightButton: string;
 }>();
 
 const emit = defineEmits<{
@@ -45,15 +47,14 @@ const emit = defineEmits<{
           @click="$emit('close')"
         >
           <XCircleIcon class="w-6 h-6 mr-1" />
-          Cancel
+          {{leftButton}}
         </button>
 
         <button
           class="flex items-center gap-2 px-4 py-2 rounded-xl bg-[var(--delete-color)] text-white font-semibold hover:brightness-95 transition"
           @click="$emit('confirm')"
         >
-          <TrashIcon class="w-4 h-4" />
-          Delete
+          {{rightButton}}
         </button>
       </div>
     </div>

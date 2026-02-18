@@ -10,6 +10,7 @@ import { useSettingsStore } from "../../stores/settings";
 import Cart from "../components/Cart.vue";
 import ModalFullCart from "../components/modals/ModalFullCart.vue";
 import ShowCode from "../components/ShowCode.vue";
+import ModalConfirmation from "../components/modals/ModalConfirmation.vue";
 
 import logo from "../assets/sg-logo-main.png";
 
@@ -34,6 +35,7 @@ const subModulesFormatted = ref();
 const isSidebarOpen = ref<boolean>(false);
 const isActive = ref<boolean>(false);
 const openCartModal = ref<boolean>(false);
+const modalConfirmation = ref<boolean>(false);
 
 onMounted(() => {
   currentUser.value = JSON.parse(localStorage.getItem("currentUser"));
@@ -113,11 +115,11 @@ const logOutFn = () => {
 
         <ShowCode />
 
-        <div class="flex gap-2 md:gap-3 justify-items-center items-center" >
+        <div class="flex gap-2 md:gap-3 justify-center items-center" >
           <Cart @click="openCart" />
 
           <button
-            @click="logOutFn()"
+            @click="modalConfirmation = true"
             class="bg-[var(--color-base)] p-2 md:p-4 btn rounded-lg text-xs sm:text-base"
           >
             LOGOUT
@@ -131,5 +133,15 @@ const logOutFn = () => {
     </section>
 
     <ModalFullCart :open="openCartModal" @close="openCartModal = false" />
+
+    <ModalConfirmation 
+      :show="modalConfirmation"
+      title="¿Do you want to log out?"
+      description="You can sign in again anytime."
+      leftButton="Cancel"
+      rightButton="Log out"
+      @close="modalConfirmation = false"
+      @confirm="logOutFn()"
+    />
   </div>
 </template>
