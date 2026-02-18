@@ -1,55 +1,50 @@
-<!-- eslint-disable vue/multi-word-component-names -->
-
 <script setup lang="ts">
-import { useNuxtApp } from '#app';
-import { ref, Ref } from "vue";
-import { useRouter } from "vue-router";
-import { logIn } from "../utils/utils";
+import { useNuxtApp } from "#app"
+import { ref } from "vue"
+import { useRouter } from "vue-router"
+import { logIn } from "../utils/utils"
+import { EyeIcon, EyeSlashIcon } from "@heroicons/vue/24/outline"
 
-import logo from "../assets/sg-logo-main.png";
+import SegmentedAuthToggle from "../components/SegmentedToggle.vue";
+import logo from "../assets/sg-logo-main.png"
 
-const router = useRouter();
-const { $toast } = useNuxtApp();
+const router = useRouter()
+const { $toast } = useNuxtApp()
 
-const email = ref<string>("");
-const password = ref<string>("");
-const errorMessage = ref<string>("");
-const loading = ref<boolean>(false);
+const email = ref<string>("")
+const password = ref<string>("")
+const showPassword = ref(false)
+
+const errorMessage = ref<string>("")
+const loading = ref<boolean>(false)
 
 const handleSubmit = async () => {
-  errorMessage.value = "";
+  errorMessage.value = ""
 
   try {
-    const response = logIn(email.value, password.value);
+    const response = logIn(email.value, password.value)
     if (response?.status === "success") {
-      router.push("/dashboard");
+      router.push("/dashboard")
       $toast.success(response?.message)
-    }else if(response?.status === "error") {
+    } else if (response?.status === "error") {
       $toast.warning(response?.message)
     }
-  } catch (err) {
-    errorMessage.value = err.message || "Unexpected error occurred";
+  } catch (err: any) {
+    errorMessage.value = err.message || "Unexpected error occurred"
   }
-};
+}
 
 const notifyFrontendOnly = (provider: string) => {
   try {
-    $toast.info(
-      `${provider} login is not available. This is a frontend-only demo.`,
-    );
+    $toast.info(`${provider} login is not available. This is a frontend-only demo.`)
   } catch (error) {
-    $toast.warning(
-      `Something went wrong with ${provider} login.`,
-    );
+    $toast.warning(`Something went wrong with ${provider} login.`)
   }
-};
-
+}
 </script>
 
 <template>
-  <main
-    class="bg-[var(--bg-color-primary)] flex font-bold items-center justify-center min-h-screen"
-  >
+  <main class="bg-[var(--bg-color-primary)] flex font-bold items-center justify-center min-h-screen">
     <header class="absolute top-2 left-2 sm:top-6 sm:left-6">
       <img :src="logo" class="w-24" alt="Logo" />
     </header>
@@ -57,6 +52,8 @@ const notifyFrontendOnly = (provider: string) => {
     <section
       class="bg-[var(--bg-color-secondary)] rounded-[1.25rem] sm:mt-0 max-w-95 p-10 mt-12 w-full btn__shadow"
     >
+      <SegmentedAuthToggle />
+
       <div class="text-center mb-6">
         <h1 class="text-[2rem] font-bold text-[var(--bg-color-primary)] bg-[var(--color-base)] rounded-2xl px-4 mb-4">
           Login
@@ -67,38 +64,49 @@ const notifyFrontendOnly = (provider: string) => {
       </div>
 
       <form class="flex flex-col gap-4" @submit.prevent="handleSubmit">
+        <!-- Email -->
         <div class="flex flex-col">
-          <label
-            for="email"
-            class="mb-2 font-medium text-[var(--color-text-primary)]"
-          >
+          <label for="email" class="mb-2 font-medium text-[var(--color-text-primary)]">
             Email
           </label>
           <input
             id="email"
             type="text"
             placeholder="Enter your email"
-            class="rounded-full px-4 py-3 border border-gray-300 transition bg-[var(--input-bg-color)] text-[var(--color-text-primary)] font-[var(--font-base)]"
+            class="rounded-full px-4 py-3 border border-gray-300 transition bg-[var(--input-bg-color)] text-[var(--color-text-primary)] font-[var(--font-base)]
+                   focus:outline-none focus:border-[var(--color-base)] focus:ring-2 focus:ring-[var(--color-base)]/20"
             v-model="email"
             required
           />
         </div>
 
+        <!-- Password with eye -->
         <div class="flex flex-col">
-          <label
-            for="password"
-            class="mb-2 font-medium text-[var(--color-text-primary)]"
-          >
+          <label for="password" class="mb-2 font-medium text-[var(--color-text-primary)]">
             Password
           </label>
-          <input
-            id="password"
-            type="password"
-            placeholder="Enter your password"
-            class="rounded-full px-4 py-3 border border-gray-300 transition bg-[var(--input-bg-color)] text-[var(--color-text-primary)] font-[var(--font-base)]"
-            v-model="password"
-            required
-          />
+
+          <div class="relative">
+            <input
+              id="password"
+              :type="showPassword ? 'text' : 'password'"
+              placeholder="Enter your password"
+              class="w-full rounded-full px-4 py-3 pr-12 border border-gray-300 transition bg-[var(--input-bg-color)] text-[var(--color-text-primary)] font-[var(--font-base)]
+                     focus:outline-none focus:border-[var(--color-base)] focus:ring-2 focus:ring-[var(--color-base)]/20"
+              v-model="password"
+              required
+            />
+
+            <button
+              type="button"
+              class="absolute right-3 top-1/2 -translate-y-1/2 rounded-full p-1.5 hover:bg-black/10 transition"
+              @click="showPassword = !showPassword"
+              :aria-label="showPassword ? 'Hide password' : 'Show password'"
+            >
+              <EyeSlashIcon v-if="showPassword" class="h-5 w-5 text-gray-500" />
+              <EyeIcon v-else class="h-5 w-5 text-gray-500" />
+            </button>
+          </div>
         </div>
 
         <button
@@ -113,6 +121,7 @@ const notifyFrontendOnly = (provider: string) => {
           {{ errorMessage }}
         </p>
 
+        <!-- Social icons/buttons unchanged -->
         <div class="flex justify-center gap-3">
           <button
             type="button"
