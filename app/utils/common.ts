@@ -29,7 +29,7 @@ export const subModules = [
     route: "",
     to: "/dashboard/",
     icon: ChartBarSquareIcon,
-    source: DashboardSource
+    source: DashboardSource,
   },
   {
     name: "Users",
@@ -53,6 +53,13 @@ export const subModules = [
     source: WebSocket,
   },
   {
+    name: "My components",
+    route: "my-components",
+    to: "/dashboard/my-components",
+    icon: Squares2X2Icon,
+    source: StoreManagmentSource,
+  },
+  {
     name: "Store Management",
     route: "store-management",
     to: "/dashboard/store-management",
@@ -65,12 +72,5 @@ export const subModules = [
     to: "/dashboard/amazon-web-services",
     icon: CubeIcon,
     source: MyComponentsSource,
-  },
-  {
-    name: "My components",
-    route: "my-components",
-    to: "/dashboard/my-components",
-    icon: Squares2X2Icon,
-    source: StoreManagmentSource,
   },
 ];

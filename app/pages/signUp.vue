@@ -17,7 +17,7 @@ const username = ref<string>("");
 const email = ref<string>("");
 const password = ref<string>("");
 
-const showPassword = ref(false); // ✅ add
+const showPassword = ref(false);
 
 const loading = ref<boolean>(false);
 const errorMessage = ref<string>("");
