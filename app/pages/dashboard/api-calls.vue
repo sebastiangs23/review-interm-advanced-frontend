@@ -1,39 +1,44 @@
 <script setup>
+import { ref } from "vue";
 import Title from "../../components/Title.vue";
 import Loader from "~/components/Loader.vue";
 import ModalCart from "~/components/modals/ModalCart.vue";
 import Badge from "~/components/Badge.vue";
+import { useApiCall } from "../../composables/apiCalls";
 import { ShoppingCartIcon, StarIcon } from "@heroicons/vue/24/solid";
+
+const config = useRuntimeConfig();
 
 definePageMeta({
   layout: "modules",
 });
 
-import { ref } from "vue";
 
 const items = ref([]);
-const loading = ref(false);
-const error = ref(false);
+const loader = ref(false);
+const errorHandler = ref(false);
 const modalCart = ref(false);
 const productSelected = ref(null);
+
+const { data, error, loading, execute } = useApiCall(() => ({
+  method: "GET",
+  url: config.public.api,
+}));
 
 onMounted(() => {
   getItems();
 });
 
 const getItems = async () => {
-  loading.value = true;
+  loader.value = true;
   error.value = false;
 
-  try {
-    const response = await $fetch("https://fakestoreapi.com/products");
-
-    items.value = response;
+  try {    
+    items.value = await execute()
   } catch (error) {
-    console.log(error);
-    error.value = true;
+    errorHandler.value = true;
   } finally {
-    loading.value = false;
+    loader.value = false;
   }
 };
 
@@ -46,7 +51,7 @@ const openModalCart = (item) => {
 
 <template>
   <Loader
-    :active="loading"
+    :active="loader"
     text="Loading"
     subtext="Please wait a second"
     :fullscreen="false"
@@ -54,7 +59,7 @@ const openModalCart = (item) => {
 
   <Title text="Store" :size="1" />
 
-  <section class="p-4" v-if="!loading && !error">
+  <section class="p-4" v-if="!loader && !errorHandler">
     <div class="grid grid-cols-[repeat(auto-fill,minmax(220px,1fr))] gap-6">
       <article
         v-for="item in items"
@@ -125,5 +130,5 @@ const openModalCart = (item) => {
     </div>
   </section>
 
-  <p v-if="error">Failed to load products. Please try again.</p>
+  <p v-if="errorHandler">Failed to load products. Please try again.</p>
 </template>

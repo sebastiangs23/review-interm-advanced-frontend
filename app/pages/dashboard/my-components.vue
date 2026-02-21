@@ -20,17 +20,17 @@ const showHex = ref<boolean>(true);
       >
         <div class="mb-6">
           <h2
-            class="text-xl font-semibold text-[var(--color-base)] md:text-2xl"
+            class="md:text-xl text-lg font-semibold text-[var(--color-base)] md:text-2xl"
           >
             Color Palette Component
           </h2>
-          <p class="mt-1 text-sm text-white/60">
+          <p class="mt-1 md:text-sm text-xs text-white/60">
             Customize the props and preview the component in real time.
           </p>
         </div>
 
         <!-- Layout -->
-        <div class="grid gap-6 md:grid-cols-[340px_1px_1fr] md:gap-8">
+        <div class="grid md:grid-cols-[340px_1px_1fr] grid-cols-[230px] md:gap-8 gap-6">
           <!-- Left: Controls -->
           <div class="space-y-5">
             <!-- Label -->
@@ -46,24 +46,24 @@ const showHex = ref<boolean>(true);
 
             <!-- Toggle: Show Hex -->
             <div
-              class="flex items-center justify-between gap-4 rounded-xl border border-white/10 bg-white/5 p-3"
+              class="flex items-center justify-between md:gap-4 gap-2 rounded-xl border border-white/10 bg-white/5 p-3"
             >
               <div>
                 <p class="text-sm font-medium text-white/80">Show Hex</p>
-                <p class="text-xs text-white/50">
+                <p class="md:text-xs text-[0.6rem] text-white/50">
                   Display hex code under the label.
                 </p>
               </div>
 
               <button
                 type="button"
-                class="relative inline-flex h-6 w-11 items-center rounded-full transition"
+                class="relative inline-flex md:h-6 h-5 md:w-11 w-10 items-center rounded-full transition"
                 :class="showHex ? 'bg-[var(--color-base)]' : 'bg-white/20'"
                 @click="showHex = !showHex"
                 :aria-pressed="showHex"
               >
                 <span
-                  class="inline-block h-5 w-5 rounded-full bg-white shadow-sm transition"
+                  class="inline-block md:h-5 md:w-5 h-4 w-4 rounded-full bg-white shadow-sm transition"
                   :class="showHex ? 'translate-x-5' : 'translate-x-1'"
                 />
               </button>

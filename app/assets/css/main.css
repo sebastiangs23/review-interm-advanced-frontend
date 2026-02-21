@@ -45,14 +45,14 @@ body {
   }
 
   .btn__base_2 {
-    @apply flex items-center justify-start gap-3  py-6 rounded-r-xl  text-white text-xl font-bold ; 
+    @apply flex items-center justify-start gap-3  py-6 rounded-r-xl  text-white md:text-xl text-lg font-bold ; 
     background: var(--input-bg-color);
     border-color: var(--bg-color-primary);
   }
 
   /* MAKE A REUSABLE COMPONENT WITH DINAMIC CLASSES */
   .btn__base_3 {
-    @apply inline-flex w-fit max-w-full items-center justify-start gap-1 p-[0.4rem] rounded-xl  text-white text-xs font-bold; 
+    @apply inline-flex w-fit max-w-full items-center justify-start gap-1 p-[0.4rem] rounded-xl  text-white md:text-xs  font-bold; 
     background: var(--input-bg-color);
     border-color: var(--bg-color-primary);
     box-shadow: inset 0 -4px 0 rgba(0, 0, 0, 0.75);

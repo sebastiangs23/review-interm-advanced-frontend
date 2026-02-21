@@ -33,6 +33,7 @@ const currentUser = ref<User>({
 });
 const subModulesFormatted = ref();
 const isSidebarOpen = ref<boolean>(false);
+const isSidebarCollapsed = ref(false);
 const isActive = ref<boolean>(false);
 const openCartModal = ref<boolean>(false);
 const modalConfirmation = ref<boolean>(false);
@@ -67,16 +68,18 @@ const logOutFn = () => {
 <template>
   <div class="flex min-h-screen font-bold flex-col md:flex-row">
     <aside
-      class="fixed md:static inset-y-0 left-0 z-40 w-60 bg-[var(--bg-color-secondary)] flex flex-col transform transition-transform duration-300"
+      class="fixed md:static inset-y-0 left-0 z-40 bg-[var(--bg-color-secondary)] flex flex-col transform transition-all duration-300"
       :class="[
         isSidebarOpen ? 'translate-x-0' : '-translate-x-full',
         'md:translate-x-0',
+        isSidebarCollapsed ? 'md:w-20' : 'md:w-60',
+        'w-60',
       ]"
     >
       <div
         class="flex items-center justify-between px-4 py-3 text-[var(--color-base)] md:hidden"
       >
-        <img :src="logo" alt="logo" class="w-[4rem]" />
+        <img :src="logo" alt="logo" class="w-[5rem]" />
         <h2 class="text-lg w-[8rem] font-bold">Admin Panel</h2>
 
         <button @click="isSidebarOpen = false">
@@ -84,9 +87,22 @@ const logOutFn = () => {
         </button>
       </div>
 
-      <header class="hidden md:flex items-center py-3 text-[var(--color-base)]">
-        <img :src="logo" alt="logo" class="w-[5rem]" />
-        <h2 class="text-xl font-bold">Admin Panel</h2>
+      <header
+        class="hidden md:flex items-center justify-between py-3 text-[var(--color-base)]"
+      >
+        <div class="flex items-center gap-2">
+          <img :src="logo" alt="logo" class="w-[5rem]" />
+          <h2 v-if="!isSidebarCollapsed" class="text-xl font-bold">
+            Admin Panel
+          </h2>
+        </div>
+
+        <button class="p-2" @click="isSidebarCollapsed = !isSidebarCollapsed">
+          <ChevronLeftIcon
+            class="w-6 h-6 transition-transform"
+            :class="isSidebarCollapsed ? 'rotate-180' : ''"
+          />
+        </button>
       </header>
 
       <nav class="font-[var(--font-base)] flex flex-col gap-4 mt-6 pr-6">
@@ -95,11 +111,14 @@ const logOutFn = () => {
           :key="sub.route"
           :to="sub.to"
           active-class="btn__base_2 btn__shadow border-2 border-[var(--color-dark)]"
-          class="flex items-center gap-3 text-[var(--color-text-primary)] text-lg pl-4 py-4"
+          class="flex items-center gap-3 text-[var(--color-text-primary)] md:text-lg text:sm pl-4 py-4"
+          :class="isSidebarCollapsed ? 'hidden' : ''"
           @click="isSidebarOpen = false"
         >
-          <component :is="sub.icon" class="w-5 h-5 shrink-0" />
-          <span>{{ sub.name }}</span>
+          <component :is="sub.icon" :class="isSidebarCollapsed ? 'md:hidden' : 'w-5 h-5 shrink-0'" />
+          <span>
+          {{ sub.name }}
+          </span>
         </NuxtLink>
       </nav>
     </aside>
@@ -115,7 +134,7 @@ const logOutFn = () => {
 
         <ShowCode />
 
-        <div class="flex gap-2 md:gap-3 justify-center items-center" >
+        <div class="flex gap-2 md:gap-3 justify-center items-center">
           <Cart @click="openCart" />
 
           <button
@@ -134,7 +153,7 @@ const logOutFn = () => {
 
     <ModalFullCart :open="openCartModal" @close="openCartModal = false" />
 
-    <ModalConfirmation 
+    <ModalConfirmation
       :show="modalConfirmation"
       title="¿Do you want to log out?"
       description="You can sign in again anytime."

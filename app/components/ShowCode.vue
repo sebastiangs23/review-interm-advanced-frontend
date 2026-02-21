@@ -3,6 +3,7 @@ import { ref, computed } from "vue";
 import { useRoute } from "vue-router";
 
 import ModalCode from "../components/modals/ModalCode.vue";
+import { useWindowWidth } from "../composables/useWidth";
 
 import { subModules } from "../utils/common";
 
@@ -10,8 +11,12 @@ const props = defineProps<{
   show: boolean;
 }>();
 
-const showCode = ref<Boolean>(false);
 const route = useRoute();
+const showCode = ref<Boolean>(false);
+const { width } = useWindowWidth();
+
+const isMobile = computed(() => width.value < 640);
+const isMdUp = computed(() => width.value >= 768);
 
 const currentSubModule = computed(() => {
   const path = route.path?.split("/")[2];
@@ -27,8 +32,9 @@ const closeModal = () => {
 
 <template>
   <header class="flex">
-      <button class="btn rounded-lg btn__shadow text-xs sm:text-base" @click="showCode = true">
-        {{ `<ShowCode path="${currentSubModule ? currentSubModule.route : "-"}" />` }}
+      <button class="btn rounded-lg btn__shadow text-[0.65rem] sm:text-base" @click="showCode = true">
+        {{  isMobile ? "<ShowCode />" : `<ShowCode path="${currentSubModule ? currentSubModule.route : "-"}" />` }}
+        {{  }}
       </button>
 
       <ModalCode

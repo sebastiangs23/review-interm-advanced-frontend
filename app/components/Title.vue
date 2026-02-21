@@ -19,11 +19,11 @@ const tag = computed(() => (`h${props.size}` as const));
 // Optional: adjust text size by heading level
 const sizeClass = computed(() => {
   switch (props.size) {
-    case 1: return "text-3xl";
-    case 2: return "text-2xl";
-    case 3: return "text-xl";
-    case 4: return "text-lg";
-    default: return "text-2xl";
+    case 1: return "md:text-3xl text-xl";
+    case 2: return "md:text-2xl text-xl";
+    case 3: return "md:text-xl";
+    case 4: return "md:text-lg";
+    default: return "md:text-2xl";
   }
 });
 </script>
