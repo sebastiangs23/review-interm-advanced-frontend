@@ -18,8 +18,7 @@ import { Bars3Icon, ChevronLeftIcon } from "@heroicons/vue/24/outline";
 
 const settings = useSettingsStore();
 const router = useRouter();
-const colorPalette = settings.colorButtons;
-const { colorButtons } = storeToRefs(settings);
+const { colorButtons, colorPalette } = storeToRefs(settings);
 
 definePageMeta({
   layout: "modules",
@@ -75,6 +74,9 @@ const logOutFn = () => {
         isSidebarCollapsed ? 'md:w-20' : 'md:w-60',
         'w-60',
       ]"
+      :style="{
+        backgroundColor: colorPalette,
+      }"
     >
       <div
         class="flex items-center justify-between px-4 py-3 text-[var(--color-base)] md:hidden"
@@ -136,10 +138,12 @@ const logOutFn = () => {
 
         <div class="flex gap-2 md:gap-3 justify-center items-center">
           <Cart @click="openCart" />
-
           <button
             @click="modalConfirmation = true"
             class="bg-[var(--color-base)] p-2 md:p-4 btn rounded-lg text-xs sm:text-base"
+            :style="{
+              backgroundColor: colorButtons,
+            }"
           >
             LOGOUT
           </button>

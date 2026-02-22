@@ -6,8 +6,8 @@ type CartItem = { product: Product; qty: number };
 export const useSettingsStore = defineStore("settings", {
   state: () => ({
     background: "white",
-    colorPalette: "#4fadbe",
-    colorButtons: "#4fadbe",
+    colorPalette: "#272727",
+    colorButtons: "#abf600",
     cart: [] as CartItem[],
   }),
 

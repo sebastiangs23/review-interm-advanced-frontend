@@ -1,41 +1,41 @@
-  <script setup lang="ts">
+<script setup lang="ts">
+import { ref } from "vue";
 
-  const props = defineProps<{
-    label: string;
-    color: string;
-    showHex?: boolean;
-  }>();
+const props = defineProps<{
+  label: string;
+  color: string;
+  showHex?: boolean;
+}>();
 
-  const emit = defineEmits<{
-    (e: "update:modelValue", value: object): void;
-  }>();
+const colorPicked = ref<string>("");
 
-  function onInput(e: Event) {
-    const target = e.target as HTMLInputElement;
-    const data = {
-      label: props.label,
-      color: target.value
-    };
+const emit = defineEmits<{
+  (e: "update:modelValue", value: object): void;
+}>();
 
-    emit("update:modelValue", data);
-  }
-  </script>
+function onInput(e: Event) {
+  const target = e.target as HTMLInputElement;
+  const data = {
+    label: props.label,
+    color: target.value,
+  };
 
-  <template>
-    <div class="flex flex-wrap items-center md:gap-[1rem] gap-[0.85rem] p-[0.5rem 0] text-white">
-      <label class="md:text-lg text-xs" >{{ props.label }}</label>
-      <input 
-        type="color"
-        @input="onInput"
-        v-model="props.color"
-      />
+  emit("update:modelValue", data);
+  colorPicked.value = data?.color;
+}
+</script>
 
-      <div
-        :style="{ backgroundColor: props.color }"
-      ></div>
+<template>
+  <div
+    class="flex flex-wrap items-center md:gap-[1rem] gap-[0.85rem] p-[0.5rem 0] text-white"
+  >
+    <label class="md:text-lg text-xs">{{ props.label }}</label>
+    <input type="color" @input="onInput" v-model="colorPicked" />
 
-      <span class="text-sm text-white/80" v-show="props.showHex">
-        {{ props.color }}
-      </span>
-    </div>
-  </template>
+    <div :style="{ backgroundColor: props.color }"></div>
+
+    <span class="text-sm text-white/80" v-show="props.showHex">
+      {{ props.color }}
+    </span>
+  </div>
+</template>
