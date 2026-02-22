@@ -164,8 +164,6 @@ const handleSubmit = async () => {
           >
             {{ loading ? "Creating..." : "Sign Up" }}
           </button>
-
-          <p v-if="errorMessage" class="signup__error">{{ errorMessage }}</p>
         </form>
 
         <footer class="text-center mt-6">

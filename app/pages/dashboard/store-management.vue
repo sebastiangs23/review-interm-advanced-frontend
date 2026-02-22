@@ -15,6 +15,7 @@ const config = [
 ];
 
 const updateColor = ({ label, color }) => {
+  console.log('labelll', label, color)
   if (label === "Modules") settings.setColorPalette(color);
   if (label === "Buttons") settings.setColorButtons(color);
 };
