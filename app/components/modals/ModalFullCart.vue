@@ -108,7 +108,7 @@ function money(n: number) {
                 </div>
 
                 <!-- Items list -->
-                <div v-else class="space-y-3">
+                <div v-else class="space-y-3 md:max-h-[20rem] max-h-[18rem] overflow-y-auto pr-1">
                   <div
                     v-for="it in items"
                     :key="it.product.id"
