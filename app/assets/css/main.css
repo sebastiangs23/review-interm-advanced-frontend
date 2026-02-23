@@ -45,7 +45,7 @@ body {
   }
 
   .btn__base_2 {
-    @apply flex items-center justify-start gap-3  py-6 rounded-r-xl  text-white md:text-xl text-lg font-bold ; 
+    @apply flex items-center justify-start gap-3  py-6 rounded-r-xl  text-white md:text-xl md:text-lg text-sm font-bold ; 
     background: var(--input-bg-color);
     border-color: var(--bg-color-primary);
   }
