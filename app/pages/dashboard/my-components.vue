@@ -2,21 +2,24 @@
 definePageMeta({ layout: "modules" });
 
 import { ref } from "vue";
-import Title from "../../components/Title.vue"
+import Title from "../../components/Title.vue";
 import ColorPalette from "../../components/ColorPalette.vue";
 
 const label = ref<string>("Background");
 const color = ref<string>("#ffffff");
 const showHex = ref<boolean>(true);
+
+const textText = ref<string>("Hello world");
+const sizeText = ref<number>(1);
 </script>
 
 <template>
   <section class="min-h-[calc(100vh-2rem)] bg-[var(--bg-color-secondary)] p-6">
-    <Title text="Component Catalog" :size=1 />
-    <div class="mx-auto w-full max-w-4xl mt-2">
-      <!-- Card -->
+    <Title text="Component Catalog" :size="1" />
+    <div class="mx-auto w-full max-w-4xl">
+      <!-- Card Color Palette -->
       <div
-        class="rounded-2xl bg-[var(--bg-color-primary)] p-6 shadow-sm ring-1 ring-black/5 md:p-8"
+        class="rounded-2xl bg-[var(--bg-color-primary)] p-6 shadow-sm ring-1 ring-black/5 md:p-8 md:my-4"
       >
         <div class="mb-6">
           <h2
@@ -24,13 +27,12 @@ const showHex = ref<boolean>(true);
           >
             Color Palette Component
           </h2>
-          <p class="mt-1 md:text-sm text-xs text-white/60">
-            Customize the props and preview the component in real time.
-          </p>
         </div>
 
         <!-- Layout -->
-        <div class="grid md:grid-cols-[340px_1px_1fr] grid-cols-[230px] md:gap-8 gap-6">
+        <div
+          class="grid md:grid-cols-[340px_1px_1fr] grid-cols-[230px] md:gap-8 gap-6"
+        >
           <!-- Left: Controls -->
           <div class="space-y-5">
             <!-- Label -->
@@ -133,6 +135,88 @@ const showHex = ref<boolean>(true);
                   :color="color"
                   :showHex="showHex"
                 />
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Title -->
+      <div
+        class="rounded-2xl bg-[var(--bg-color-primary)] p-6 shadow-sm ring-1 ring-black/5 md:p-8"
+      >
+        <div class="mb-6">
+          <h2
+            class="md:text-xl text-lg font-semibold text-[var(--color-base)] md:text-2xl"
+          >
+            Title Component
+          </h2>
+
+          <!-- Layout Title -->
+          <div
+            class="grid md:grid-cols-[340px_1px_1fr] grid-cols-[230px] md:gap-8 gap-6"
+          >
+            <!-- Left: Controls -->
+            <div class="space-y-5">
+              <!-- Label -->
+              <div class="space-y-2">
+                <label class="text-sm font-medium text-white/80">Text</label>
+                <input
+                  type="text"
+                  v-model="textText"
+                  class="h-10 w-full rounded-xl border border-white/10 bg-white/90 px-3 text-sm text-black placeholder-black/40 shadow-sm outline-none transition focus:border-blue-600 focus:ring-2 focus:ring-blue-600/20"
+                  placeholder="e.g. Hello World"
+                />
+              </div>
+
+              <!-- Color -->
+              <div class="space-y-2">
+                <label class="text-sm font-medium text-white/80">Size</label>
+
+                <div class="flex items-center gap-3">
+                  <!-- Hex input (optional but improves UX a lot) -->
+                  <input
+                    type="number"
+                    v-model="sizeText"
+                    class="h-10 w-full rounded-xl border border-white/10 bg-white/90 px-3 text-sm text-black shadow-sm outline-none transition focus:border-blue-600 focus:ring-2 focus:ring-blue-600/20"
+                    placeholder="Only 1..4 for sizes"
+                  />
+                </div>
+
+                <p class="text-xs text-white/50">
+                  Tip: Only 1,2,3,4 are valid sizes.
+                </p>
+              </div>
+            </div>
+
+            <!-- Divider -->
+            <div class="hidden bg-white/10 md:block"></div>
+
+            <!-- Right: Preview -->
+            <div class="flex items-center justify-center">
+              <div
+                class="w-full rounded-2xl border border-white/10 bg-white/5 p-6"
+              >
+                <div class="mb-3 flex items-center justify-between">
+                  <p class="text-sm font-medium text-white/70">Preview</p>
+
+                  <div class="flex items-center justify-center gap-2">
+                    <span class="relative flex h-2 w-2">
+                      <span
+                        class="absolute inline-flex h-full w-full animate-ping rounded-full bg-[var(--color-base)] opacity-75"
+                      ></span>
+                      <span
+                        class="relative inline-flex h-2 w-2 rounded-full bg-[var(--color-base)]"
+                      ></span>
+                    </span>
+
+                    <span class="text-xs text-white/40 leading-none">{{Live}}</span>
+                  </div>
+                </div>
+
+                <div class="grid place-items-center rounded-xl bg-black/10 p-6">
+                  <Title :text="textText" :size="sizeText" />
+                </div>
               </div>
             </div>
           </div>
