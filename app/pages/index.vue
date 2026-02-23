@@ -26,8 +26,19 @@ const loading = ref<boolean>(false);
 const handleSubmit = async () => {
   errorMessage.value = "";
 
+  const emailValue = email.value.trim();
+  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
+
+  if (!emailRegex.test(emailValue)) {
+    const msg = "Please enter a valid email address.";
+    errorMessage.value = msg;
+    $toast.warning(msg);
+    return;
+  }
+
   try {
-    const response = await logIn(email.value, password.value);
+    const response = await logIn(emailValue, password.value);
+
     if (response?.status === "success") {
       router.push("/dashboard");
       $toast.success(response?.message);
@@ -35,7 +46,9 @@ const handleSubmit = async () => {
       $toast.warning(response?.message);
     }
   } catch (err: any) {
-    errorMessage.value = err.message || "Unexpected error occurred";
+    const msg = err?.message || "Unexpected error occurred";
+    errorMessage.value = msg;
+    $toast.error(msg);
   }
 };
 
@@ -59,12 +72,16 @@ const notifyFrontendOnly = (provider: string) => {
 
     <!-- Layout -->
     <div class="min-h-screen flex flex-col">
-      <div class="flex-1 grid grid-cols-1 md:grid-cols-2 items-center gap-8 px-4 sm:px-8 pt-24 pb-10">
+      <div
+        class="flex-1 grid grid-cols-1 md:grid-cols-2 items-center gap-8 px-4 sm:px-8 pt-24 pb-10"
+      >
         <!-- Left (Desktop only) -->
-        <aside class="hidden md:flex flex-col md:items-center md:justify-center gap-6">
+        <aside
+          class="hidden md:flex flex-col md:items-center md:justify-center gap-6"
+        >
           <div class="leading-tight">
             <span class="block text-white text-4xl">
-              &lt;/ This is only a 
+              &lt;/ This is only a
             </span>
             <span class="block text-4xl text-[var(--color-base)]">
               Frontend demo project. /&gt;
@@ -82,7 +99,7 @@ const notifyFrontendOnly = (provider: string) => {
 
         <!-- Right (Login + Carrousel on mobile) -->
         <section class="flex items-center justify-center md:justify-start">
-          <Divider :vertical="true" customizeClass="mr-30"/>
+          <Divider :vertical="true" customizeClass="md:mr-30 hidden md:block" />
           <div class="w-full max-w-[26rem]">
             <div
               class="bg-[var(--bg-color-secondary)] rounded-[1.25rem] p-6 sm:p-10 btn__shadow md:mt-0"
@@ -100,54 +117,59 @@ const notifyFrontendOnly = (provider: string) => {
                 </p>
               </div>
 
-              <form class="flex flex-col gap-2 md:gap-4" @submit.prevent="handleSubmit">
-                <!-- Email -->
-                <div class="flex flex-col">
-                  <label
-                    for="email"
-                    class="mb-2 text-[0.9rem] md:text-[1rem] font-medium text-[var(--color-text-primary)]"
-                  >
-                    Email
-                  </label>
+              <form
+                class="flex flex-col gap-3 md:gap-4"
+                @submit.prevent="handleSubmit"
+              >
+                <!-- Email (floating) -->
+                <div class="relative">
                   <input
                     id="email"
                     type="text"
-                    placeholder="Enter your email"
-                    class="rounded-full px-4 py-3 border border-gray-300 transition bg-[var(--input-bg-color)] text-[var(--color-text-primary)] font-[var(--font-base)] focus:outline-none focus:border-[var(--color-base)] focus:ring-2 focus:ring-[var(--color-base)]/20"
                     v-model="email"
+                    placeholder=" "
                     required
+                    class="peer w-full rounded-full px-4 pt-5 pb-3 border border-gray-300 transition bg-[var(--input-bg-color)] text-[var(--color-text-primary)] font-[var(--font-base)] focus:outline-none focus:border-[var(--color-base)] focus:ring-2 focus:ring-[var(--color-base)]/20"
                   />
+                  <label
+                    for="email"
+                    class="pointer-events-none absolute left-4 top-1/2 -translate-y-1/2 text-gray-500 transition-all peer-focus:top-2 peer-focus:translate-y-0 peer-focus:text-xs peer-focus:text-[var(--color-base)] peer-[:not(:placeholder-shown)]:top-2 peer-[:not(:placeholder-shown)]:translate-y-0 peer-[:not(:placeholder-shown)]:text-xs peer-[:not(:placeholder-shown)]:text-gray-500"
+                  >
+                    Email
+                  </label>
                 </div>
 
-                <!-- Password -->
-                <div class="flex flex-col">
+                <!-- Password (floating + eye) -->
+                <div class="relative">
+                  <input
+                    id="password"
+                    :type="showPassword ? 'text' : 'password'"
+                    v-model="password"
+                    placeholder=" "
+                    required
+                    class="peer w-full rounded-full px-4 pt-5 pb-3 pr-12 border border-gray-300 transition bg-[var(--input-bg-color)] text-[var(--color-text-primary)] font-[var(--font-base)] focus:outline-none focus:border-[var(--color-base)] focus:ring-2 focus:ring-[var(--color-base)]/20"
+                  />
                   <label
                     for="password"
-                    class="mb-2 text-[0.9rem] md:text-[1rem] font-medium text-[var(--color-text-primary)]"
+                    class="pointer-events-none absolute left-4 top-1/2 -translate-y-1/2 text-gray-500 transition-all peer-focus:top-2 peer-focus:translate-y-0 peer-focus:text-xs peer-focus:text-[var(--color-base)] peer-[:not(:placeholder-shown)]:top-2 peer-[:not(:placeholder-shown)]:translate-y-0 peer-[:not(:placeholder-shown)]:text-xs peer-[:not(:placeholder-shown)]:text-gray-500"
                   >
                     Password
                   </label>
 
-                  <div class="relative">
-                    <input
-                      id="password"
-                      :type="showPassword ? 'text' : 'password'"
-                      placeholder="Enter your password"
-                      class="w-full rounded-full px-4 py-3 pr-12 border border-gray-300 transition bg-[var(--input-bg-color)] text-[var(--color-text-primary)] font-[var(--font-base)] focus:outline-none focus:border-[var(--color-base)] focus:ring-2 focus:ring-[var(--color-base)]/20"
-                      v-model="password"
-                      required
+                  <button
+                    type="button"
+                    class="absolute right-3 top-1/2 -translate-y-1/2 rounded-full p-1.5 hover:bg-black/10 transition"
+                    @click="showPassword = !showPassword"
+                    :aria-label="
+                      showPassword ? 'Hide password' : 'Show password'
+                    "
+                  >
+                    <EyeSlashIcon
+                      v-if="showPassword"
+                      class="h-5 w-5 text-gray-500"
                     />
-
-                    <button
-                      type="button"
-                      class="absolute right-3 top-1/2 -translate-y-1/2 rounded-full p-1.5 hover:bg-black/10 transition"
-                      @click="showPassword = !showPassword"
-                      :aria-label="showPassword ? 'Hide password' : 'Show password'"
-                    >
-                      <EyeSlashIcon v-if="showPassword" class="h-5 w-5 text-gray-500" />
-                      <EyeIcon v-else class="h-5 w-5 text-gray-500" />
-                    </button>
-                  </div>
+                    <EyeIcon v-else class="h-5 w-5 text-gray-500" />
+                  </button>
                 </div>
 
                 <button
@@ -158,7 +180,10 @@ const notifyFrontendOnly = (provider: string) => {
                   {{ loading ? "Signing in..." : "Sign In" }}
                 </button>
 
-                <p v-if="errorMessage" class="mt-2 text-center text-sm text-red-500">
+                <p
+                  v-if="errorMessage"
+                  class="mt-2 text-center text-sm text-red-500"
+                >
                   {{ errorMessage }}
                 </p>
 
@@ -193,7 +218,9 @@ const notifyFrontendOnly = (provider: string) => {
                 </div>
 
                 <div class="text-center mt-4">
-                  <p class="text-[0.75rem] md:text-[1rem] text-[var(--color-text-primary)]">
+                  <p
+                    class="text-[0.75rem] md:text-[1rem] text-[var(--color-text-primary)]"
+                  >
                     Don’t have an account?
                     <NuxtLink
                       to="/signup"

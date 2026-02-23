@@ -104,8 +104,8 @@ onBeforeUnmount(() => window.removeEventListener("keydown", onKeydown));
               </div>
 
               <!-- content -->
-              <div v-if="product" class="p-5">
-                <div class="grid gap-5 md:grid-cols-[180px_1fr] md:items-start">
+              <div v-if="product" class="flex flex-col max-h-[70vh] p-5">
+                <div class="grid gap-5 md:grid-cols-[180px_1fr] overflow-y-auto md:items-start min-h-0 overflow-y-auto">
                   <!-- image -->
                   <div class="rounded-2xl bg-white/5 p-4 ring-1 ring-white/10">
                     <div class="grid place-items-center">
