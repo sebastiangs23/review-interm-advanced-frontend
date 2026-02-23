@@ -1,4 +1,3 @@
-// src/composables/useApiCall.ts
 import { ref, shallowRef, onUnmounted } from "vue";
 import axios, { type AxiosRequestConfig, type AxiosError } from "axios";
 

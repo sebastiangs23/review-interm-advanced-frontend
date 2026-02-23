@@ -25,7 +25,7 @@ const handleSubmit = async () => {
   errorMessage.value = "";
 
   try {
-    const response = logIn(email.value, password.value);
+    const response = await logIn(email.value, password.value);
     if (response?.status === "success") {
       router.push("/dashboard");
       $toast.success(response?.message);
