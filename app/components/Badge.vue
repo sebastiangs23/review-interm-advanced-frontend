@@ -9,8 +9,8 @@ const props = withDefaults(
     toolTipActive: boolean;
   }>(),
   {
-    toolTipActive: true,
     colorText: "#FFFFFF",
+    toolTipActive: true,
   },
 );
 </script>
