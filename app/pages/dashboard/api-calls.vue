@@ -514,5 +514,5 @@ const priceMaxDisplay = computed(() => clampNumber(uiFilters.value.priceMax, 0))
     </p>
   </section>
 
-  <p v-if="errorHandler">Failed to load products. Please try again.</p>
+  <p v-if="errorHandler" class="text-white md:p-3 p-2">Failed to load products. Please try again.</p>
 </template>
