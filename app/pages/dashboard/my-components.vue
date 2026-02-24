@@ -1,4 +1,5 @@
 <script setup lang="ts">
+//TODO: Refactor and componentize this page
 definePageMeta({ layout: "modules" });
 
 import { ref, computed, reactive } from "vue";
@@ -25,7 +26,7 @@ const subtextLoader = ref<string>("Up to youuu");
 const blurLoader = ref<boolean>(true);
 const blockLoader = ref<boolean>(false);
 
-const pagination = reactive({ page: 1, perPage: 1 }); // <- 1 section per page (change to 2/3 if you want)
+const pagination = reactive({ page: 1, perPage: 1 });
 
 const sections = computed(() => ["color", "title", "badge", "loader"]);
 
