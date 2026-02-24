@@ -5,7 +5,7 @@ export default defineNuxtConfig({
   devtools: { enabled: true },
   runtimeConfig: {
     public: {
-      api: process.env.API,
+      api: process.env.API || "https://fakestoreapi.com/products",
     },
   },
   css: [
